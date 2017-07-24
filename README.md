@@ -2,7 +2,9 @@
 
 Subnotes is a plaintext-based system for note taking and task-management. Taking inspiration from Taskpaper and the todo.txt system, you can keep your notes and subnotes in a simple format: a header line (note) with indented lines (subnotes) right below.
 
-*Subnotes remain attached to the header line if they're indented by 4 spaces. There's only one level of subnotes, but feel free to indent as much as you like.*
+*Subnotes remain attached to the header line if they're indented by multiples of 4 spaces or tabs\*. There's only one level of subnotes, but feel free to indent as much as you like.*
+
+*\*Tabs are automatically converted to spaces.*
 
 ## Current Features
 * **Organize your notes:** You can sort all items in alphabetical order with projects (prefixed by '+') on top and non-prefixed notes below. 

@@ -4,7 +4,11 @@
 ## Data
 Data structure now looks like:
 ```
-[{'project': '+projectB', 'done': ['    x note1B'], 'Subnote': ['    note2B']}, {'note': 'note all alone'}, {'note': 'note with subnotes', 'Subnote': ['    note subnote1 @!', '    note subnote2']}, {'project': '+projectA @!', 'Subnote': ['    note1A', '    note2A']}]
+[
+    {'project': '+projectB', 'done': ['    x note1B'], 'Subnote': ['    note2B']}, {'note': 'note all alone'}, 
+    {'note': 'note with subnotes', 'Subnote': ['    note subnote1 @!', '    note subnote2']}, 
+    {'project': '+projectA @!', 'Subnote': ['    note1A', '    note2A']}
+]
 ```
 instead of `'project'`, I'm thinking `'note'` would always be the header and 'project' could always be there as `True` or `False`. Maybe this could be part of a class?
 
