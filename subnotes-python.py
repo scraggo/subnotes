@@ -161,7 +161,7 @@ def priorityTagFilter():
     #Beware of global encodedTodos!
     #filter by @!
     print(r'PRIORITY ITEMS - with @! tag')
-    print('*'*36)
+    print('*'*28)
     for todoItem in encodedTodos:
         for v in todoItem.values():
             if type(v) == str and '@!' in v:
@@ -224,7 +224,8 @@ while True:
 
     print('\n\nCool! But, what now?')
     print(
-    'Copy this output to your clipboard. To return to main menu, hit enter.\n\
+    'You may select and this output to your clipboard to put into your personal file system.\n\
+To return to main menu, hit enter.\n\
 If you\'ve got everything you need, hit q to quit.')
     pause = input('> ')
     if pause.lower() == 'q':
