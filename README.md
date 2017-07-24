@@ -2,7 +2,7 @@
 
 Subnotes is a plaintext-based system for note taking and task-management. Going beyond the todo.txt system, you can keep indented lines (subnotes) with a header line (note).
 
-*Subnotes remain attached to the header line if they're indented by 4 spaces.*
+*Subnotes remain attached to the header line if they're indented by 4 spaces. There's only one level of subnotes, but feel free to indent more.*
 
 ## Current Features
 * **Organize your notes:** You can sort all items in alphabetical order with projects (prefixed by '+') on top and non-prefixed notes below. 
@@ -11,7 +11,7 @@ Subnotes is a plaintext-based system for note taking and task-management. Going 
 
 ## Usage
 
-The first command prompt asks for your choice of sorting your notes or seeing only your priority items. Then, you're asked to copy your notes to the clipboard (in this format:)
+The first command prompt asks for your choice of sorting your notes or seeing only your priority items. Then, you're asked to copy your notes to your clipboard (in this format:)
 ```
 +Project @tag
     x done item in project
@@ -32,7 +32,9 @@ Note with tag @!
     x done item for note
     not done item for a note @tag
 ```
-Sorting output:
+(Feel free to copy the above text to experiment with Subnotes.)
+
+The sorted output:
 ```
 +Project @tag
     task1 for project
