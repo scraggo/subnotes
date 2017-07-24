@@ -19,5 +19,8 @@ instead of `'project'`, I'm thinking `'note'` would always be the header and 'pr
 ## Spacing
 * Allow for user to set their spacing preferences. Currently, an error occurs if spacing isn't in multiples of 4. This isn't very flexible (and probably unnecessary.)
 
+## UI
+* The command line user interface is admittedly a bit strange and unwieldy. Ideally, the screen would **fully** clear (not just print 100 new lines and reset to the top.)
+
 ## Code quality / Review
 * The fixes above will help maintain the code, but there's much more I could fix. I'd very much appreciate suggestions from anyone who has experience with this type of programming.
