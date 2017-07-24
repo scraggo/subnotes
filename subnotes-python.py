@@ -1,28 +1,34 @@
-# import re
 # import pprint
 import os, sys
+import re
 import pyperclip
 from datetime import datetime
+
+#GLOBAL, QUICK CONFIG:
+SPACING = 4
 
 def spaceChecker(text):
     '''We want a file that has mod 4 spaces and no tabs'''
 
-    if '\t' in text:
-        print('ERROR>>>' + text)
-        sys.exit("Tabs detected. Convert to 4 spaces")
-
     #count how many leading spaces
     spaces = (len(text) - len(text.lstrip()))
 
-    if spaces % 4 != 0:
+    if spaces % SPACING != 0:
         print('ERROR>>>' + text)
-        sys.exit("Uneven spacing detected. Convert to 4 spaces")
+        sys.exit("Uneven spacing detected. Convert to {} spaces".format(SPACING))
 
     return spaces
+
+def replaceTabs(text):
+    '''converts tabs to spaces'''
+    if '\t' in text:
+        return text.replace('\t', ' ' * SPACING)
+    return text
 
 def todoEncoder(array, encodedList):
 
     for line in array:
+        line = replaceTabs(line)
         spaces = spaceChecker(line)
         #ignore empty lines
         if len(line.strip()) == 0:
