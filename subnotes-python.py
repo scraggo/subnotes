@@ -183,22 +183,35 @@ def menu():
     choice = input('> ')
     return choice
 
-#test - rename without '2' at end
-todoTxt2 = '''
+def debugPrintAll():
+    #test - rename without '2' at end
+    todoTxt2 = '''
 +projectB
-    note1B
+    x note1B
     note2B
     
 note all alone
 
 note with subnotes
-    note subnote1
+    note subnote1 @!
     note subnote2
 
-+projectA
++projectA @!
     note1A
     note2A
 '''
+    todoArray = todoTxt2.split('\n')
+    encodedTodos2 = []
+    todoEncoder(todoArray, encodedTodos2)
+    #debug encoded todos
+    print(encodedTodos2)
+    #prints all
+    for todoItem in encodedTodos2:
+        printTodo(todoItem) #see function, rename var
+        print()
+
+# debugPrintAll()
+# pause = input('>')
 
 while True:
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -229,18 +242,5 @@ To return to main menu, hit enter.\n\
 If you\'ve got everything you need, hit q to quit.')
     pause = input('> ')
     if pause.lower() == 'q':
+        print('Thanks and goodbye!')
         break
-
-    #debug
-    '''
-    print()
-    for todoItem in encodedTodos:
-        print(todoItem)
-    '''
-
-    '''
-    #prints all
-    for todoItem in encodedTodos:
-        printTodo(todoItem) #see function, rename var
-        print()
-    '''
