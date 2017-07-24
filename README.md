@@ -1,6 +1,6 @@
 # subnotes-python
 
-Subnotes is a plaintext-based system for note taking and task-management. Going beyond the todo.txt system, you can keep indented lines (subnotes) with a header line (note).
+Subnotes is a plaintext-based system for note taking and task-management. Taking inspiration from Taskpaper and the todo.txt system, you can keep your notes and subnotes in a simple format: a header line (note) with indented lines (subnotes) right below.
 
 *Subnotes remain attached to the header line if they're indented by 4 spaces. There's only one level of subnotes, but feel free to indent as much as you like.*
 
