@@ -73,12 +73,14 @@ Note with tag @!
 ```
 
 ## Requirements
-* convert tabs to 4 spaces using [Replace and Convert Tabs To Spaces Online.](http://tabstospaces.com/) - this will be fixed in the future. Currently, an error occurs if spacing isn't in multiples of 4.
+* You can convert tabs to 4 spaces using [Replace and Convert Tabs To Spaces Online.](http://tabstospaces.com/) - this will be fixed in the future. Currently, an error occurs if spacing isn't in multiples of 4.
 * pyperclip module (will be most-likely be removed in the future.) [pyperclip 1.5.27 : Python Package Index](https://pypi.python.org/pypi/pyperclip)
 
 ## Features to add
-This is a work in progress. I hope to eventually implement:
+This is a work in progress and could use some help. I hope to eventually implement:
 
 * Filter your notes by project, note name, or tags.
 * Allow for file-input and output (rather than copy-paste.)
 * Allow for user to set their spacing preferences.
+
+see [issues.md](https://github.com/scraggo/subnotes-python/blob/master/issues.md)
