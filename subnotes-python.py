@@ -14,8 +14,9 @@ def spaceChecker(text):
     spaces = (len(text) - len(text.lstrip()))
 
     if spaces % SPACING != 0:
-        print('ERROR>>>' + text)
-        sys.exit("Uneven spacing detected. Convert to {} spaces".format(SPACING))
+        print('WARNING - INCONSISTENT SPACING!\n>>>' + text)
+        print("has {} spaces. Convert to multiples of {} spaces.".format(spaces, SPACING))
+        sys.exit()
 
     return spaces
 
