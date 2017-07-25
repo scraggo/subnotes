@@ -42,7 +42,7 @@ def todoEncoder(array, encodedList):
                 encodedList.append({'project': line})
             #collect 'done' items
             elif line.startswith('x '):
-                encodedList.append({'done': line})
+                encodedList.append({'done': [line]})
             #collect untitled notes as 'note'
             else:
                 encodedList.append({'note': line})
@@ -61,32 +61,41 @@ def todoEncoder(array, encodedList):
                 subDone['done'].append(line) #or line.strip() ?
             else:
                 subNote = encodedList[lastProjectIndex]
-                subNote.setdefault('Subnote', [])
+                subNote.setdefault('subnote', [])
                 # print(subNote['note']) #debug
                 # print('lastProjectIndex', lastProjectIndex) #debug
-                subNote['Subnote'].append(line) #or line.strip() ?
+                subNote['subnote'].append(line) #or line.strip() ?
                 # print('subNote:',subNote['note']) #debug
 
 
+def printProject(dataItem):
+    '''dataItem is a single dict object from encoded todos'''
+
+    if 'project' in dataItem:
+        print(dataItem['project'])
+
+def printNote(dataItem):
+    '''dataItem is a single dict object from encoded todos'''
+
+    if 'project' in dataItem:
+        print(dataItem['project'])
+
 def printTodo(todoItem):
     '''todoItem is a single dict object from encoded todos'''
+
     if 'project' in todoItem:
         print(todoItem['project'])
+
     elif 'note' in todoItem:
         print(todoItem['note'])
-    # else:
-    #     print('>>>error')
 
-    if 'Subnote' in todoItem:
-        for subNote in todoItem['Subnote']:
+    if 'subnote' in todoItem:
+        for subNote in todoItem['subnote']:
             print(subNote)
 
     if 'done' in todoItem:
-        if type(todoItem['done']) == str:
-            print(todoItem['done'])
-        else:
-            for doneItem in todoItem['done']:
-                print(doneItem)
+        for doneItem in todoItem['done']:
+            print(doneItem)
 
 def printProjects(encodedList):
     # print('\nPROJECTS:\n')
@@ -102,8 +111,8 @@ def printProjects(encodedList):
     # display projects
     for project in projectList2:
         print(project['project'])
-        if 'Subnote' in project:
-            for note in project['Subnote']:
+        if 'subnote' in project:
+            for note in project['subnote']:
                 print(note) #with 4 preceding spaces?
 
 def printNotes(encodedList):
@@ -120,8 +129,8 @@ def printNotes(encodedList):
     # display notes
     for note in noteList2:
         print(note['note'])
-        if 'Subnote' in note:
-            for note in note['Subnote']:
+        if 'subnote' in note:
+            for note in note['subnote']:
                 print(note) #with 4 preceding spaces?
         print()
 
