@@ -17,17 +17,14 @@ import re
 import pyperclip
 from datetime import datetime
 
-#GLOBAL, QUICK CONFIG:
-SPACING = 4
-
 def spaceChecker(text):
     '''
-    We want a file that has mod 4 spaces and no tabs,
+    We want a file that has mod 4 spaces and no tabs.
 
     Args:
-        text: a string of text
+        text: a string of text with tabs already replaced.
     Returns:
-        the number of leading spaces in the text.abs
+        the number of leading spaces in the text
     Raises:
         sys.exit() if spacing is inconsistent
     '''
@@ -42,69 +39,78 @@ def spaceChecker(text):
 
     return spaces
 
-def blockEncoder(array, encodedList):
+def makeBlocks(f_list):
     '''
-    Main function that...
+    Args:
+        f_list: this is the user's text, list format, split by new line
+    Returns:
+        A list of lists where each list is determined by empty lines
+    '''
+    return [list(g[1]) for g in itertools.groupby(f_list, key= lambda x: x.strip() != '') if g[0]]
+
+def blockEncoder(f_list, encodedf_list):
+    '''
+    Main function that appends dict objects to encodedf_list as such:
+    [
+    {'project': '+projectB', 'done': ['    x note1B'], 'Subnote': ['    note2B']}, {'note': 'note all alone'}, 
+    {'note': 'note with subnotes', 'Subnote': ['    note subnote1 @!', '    note subnote2']}, 
+    {'project': '+projectA @!', 'Subnote': ['    note1A', '    note2A']}
+    ]
 
     Args:
-        array: this is the user's text, list format, split by new line
-        encodedList: this is an empty list (global)
+        f_list: this is the user's text, list format, split by new line
+        encodedf_list: this is an empty list (global)
     Returns:
-        None (global encodedList is manipulated with encoding)
+        None (global encodedf_list is manipulated with encoding)
     '''
-    blocks = [list(g[1]) for g in itertools.groupby(array, key= lambda x: x.strip() != '') if g[0]]
 
-    for line in array:
-        line = line.replace('\t', ' ' * SPACING)
-        spaces = spaceChecker(line)
-        #ignore empty lines
-        if len(line.strip()) == 0:
-            continue
+    f_list = makeBlocks(f_list)
 
-        # if no spaces, encode as top level
-        elif spaces == 0:
-            #collect 'project' items
-            if line[0] == '+':
-                encodedList.append({'project': line})
-            #collect 'done' items
-            elif line.startswith('x '):
-                encodedList.append({'done': [line]})
-            #collect untitled notes as 'note'
-            else:
-                encodedList.append({'note': line})
-                
-        #if spaces, then append to top level project
-        elif spaces > 0:
-            if len(encodedList) > 0:
-                lastProjectIndex = len(encodedList) - 1
-            else:
-                print('ERROR>>>'+line)
-                sys.exit('First line must not be indented.')
+    # dataBlocks = []
+    # for sublist in blocks:
+    #     if sublist[1]:
+    #         dataBlocks.append({'header': sublist[0], 'data': sublist[1:]})
+    #     else:
+    #         dataBlocks.append({'header': sublist[0], 'data': []})
+    # dataBlocks = sorted(dataBlocks, key=lambda k: k['header'].lower())
+    # # pprint(dataBlocks)
+    # return dataBlocks
+    
+    for i, block in enumerate(f_list):
+        encodedf_list.append({})
+        encodedf_list[i].setdefault('header', [])
+        encodedf_list[i].setdefault('data', [])
+        encodedf_list[i].setdefault('done', [])
+        for line in block:
+            line = line.replace('\t', ' ' * SPACING)
+            spaces = spaceChecker(line)
 
             if line.strip().startswith('x '):
-                subDone = encodedList[lastProjectIndex]
-                subDone.setdefault('done', [])
-                subDone['done'].append(line) #or line.strip() ?
-            else:
-                subNote = encodedList[lastProjectIndex]
-                subNote.setdefault('subnote', [])
-                # print(subNote['note']) #debug
-                # print('lastProjectIndex', lastProjectIndex) #debug
-                subNote['subnote'].append(line) #or line.strip() ?
-                # print('subNote:',subNote['note']) #debug
+                encodedf_list[i]['done'].append(line)
+
+            else: #line doesn't start with x
+                if len(block) == 1:
+                    encodedf_list[i]['header'].append(line)
+                elif len(block) > 1:
+                    if line == block[0]:
+                        encodedf_list[i]['header'].append(line)
+                    else:
+                        encodedf_list[i]['data'].append(line)
 
 
-def printProject(dataItem):
+def printHeader(dataItem):
     '''dataItem is a single dict object from encoded todos'''
 
-    if 'project' in dataItem:
-        print(dataItem['project'])
+    if dataItem['header'] != [],
+        print(dataItem['header'][0])
 
-def printNote(dataItem):
+def printData(dataItem):
     '''dataItem is a single dict object from encoded todos'''
 
-    if 'project' in dataItem:
-        print(dataItem['project'])
+    if dataItem['data'] != []:
+        for item in dataItem['data']:
+            print(item)
+
 
 def printTodo(todoItem):
     '''todoItem is a single dict object from encoded todos'''
@@ -123,44 +129,73 @@ def printTodo(todoItem):
         for doneItem in todoItem['done']:
             print(doneItem)
 
-def printProjects(encodedList):
-    # print('\nPROJECTS:\n')
-    # filter by projects
-    projectList = []
-    for data in encodedList:
-        if 'project' in data:
-            projectList.append(data)
+def printAllHeaders(encodedf_list):
+    '''sort and print'''
+    headerList = []
+    for data in encodedf_list:
+        if data['header']:
+            headerList.append(data['header'][0])
 
-    # sort by project name
-    projectList2 = sorted(projectList, key=lambda k: k['project'].lower())
+    # sort by header name
+    headerList = sorted(headerList, key=lambda k: k.lower())
+
+    # display headers
+    for header in headerList:
+        print(header)
+
+
+def printAllData(encodedf_list):
+    '''just print'''
+    dataList = []
+    for data in encodedf_list:
+        if data['data']:
+            dataList.append(data['data'])
+
+    # sort by data name
+    # dataList = sorted(dataList, key=lambda k: k.lower())
 
     # display projects
-    for project in projectList2:
-        print(project['project'])
-        if 'subnote' in project:
-            for note in project['subnote']:
-                print(note) #with 4 preceding spaces?
+    for data in dataList:
+        print(data)
 
-def printNotes(encodedList):
-    # print('\nNOTES:\n')
-    # filter by notes
-    noteList = []
-    for data in encodedList:
-        if 'project' not in data and 'note' in data: #and 'done' not in data (removed)
-            noteList.append(data)
+# def printProjects(encodedf_list):
+#     # print('\nPROJECTS:\n')
+#     # filter by projects
+#     projectList = []
+#     for data in encodedf_list:
+#         if 'project' in data:
+#             projectList.append(data)
 
-    # sort by note name
-    noteList2 = sorted(noteList, key=lambda k: k['note'].lower())
+#     # sort by project name
+#     projectList2 = sorted(projectList, key=lambda k: k['project'].lower())
 
-    # display notes
-    for note in noteList2:
-        print(note['note'])
-        if 'subnote' in note:
-            for note in note['subnote']:
-                print(note) #with 4 preceding spaces?
-        print()
+#     # display projects
+#     for project in projectList2:
+#         print(project['project'])
+#         if 'subnote' in project:
+#             for note in project['subnote']:
+#                 print(note) #with 4 preceding spaces?
 
-def printDone(encodedList):
+# def printNotes(encodedf_list):
+#     # print('\nNOTES:\n')
+#     # filter by notes
+#     noteList = []
+#     for data in encodedf_list:
+#         if 'project' not in data and 'note' in data: #and 'done' not in data (removed)
+#             noteList.append(data)
+
+#     # sort by note name
+#     noteList2 = sorted(noteList, key=lambda k: k['note'].lower())
+
+#     # display notes
+#     for note in noteList2:
+#         print(note['note'])
+#         if 'subnote' in note:
+#             for note in note['subnote']:
+#                 print(note) #with 4 preceding spaces?
+#         print()
+
+def printDone(encodedf_list):
     # print('DONE:')
 
     #prints the current date and time
@@ -168,35 +203,30 @@ def printDone(encodedList):
 
     # filter by done
     doneList = []
-    for fullData in encodedList:
+    for fullData in encodedf_list:
         if 'done' in fullData:
             doneList.append(fullData)    
 
     # display notes
     for data in doneList:
-        if type(data['done']) == list:
-            for doneItem in data['done']:
-                if 'project' in data:
-                    print(doneItem.strip() + ', ' + data['project'])
-                elif 'note' in data:
-                    print(doneItem.strip() + ', (' + data['note'][:14] + '...)')
-                else:
-                    print(doneItem.strip())
-
-        else: #items are strings
-            if 'project' in data:
-                print(data['done'].strip() + ', ' + data['project'])
-            elif 'note' in data:
-                print(data['done'].strip() + ', (' + data['note'][:14] + '...)')
+        # if type(data['done']) == list:
+        for doneItem in data['done']:
+            if data['header'] == []:
+                # print('header empty')#debug
+                print(doneItem.strip())
             else:
-                print(data['done'])
+                # print('header not empty')#debug
+                # print(doneItem.strip() + ', ' + data['header'][0])
+                print(doneItem.strip() + ' -> ' + data['header'][0])
 
-
-def sortAll(encodedList):
-    printProjects(encodedList)
+def sortAll(encodedf_list):
+    '''prints sorted'''
+    printHeader(encodedf_list)
+    # printProjects(encodedf_list)
     print()
-    printNotes(encodedList)
-    printDone(encodedList)
+    printData(encodedf_list)
+    # printNotes(encodedf_list)
+    printDone(encodedf_list)
 
 
 def priorityTagFilter():
@@ -255,34 +285,40 @@ note with subnotes
 # debugPrintAll()
 # pause = input('>')
 
-while True:
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print('Welcome to Subnotes! ', end='')
-    choice = menu()
-    if choice not in ['1', '2']:
-        print('Thanks and goodbye!')
-        break
+#GLOBAL, QUICK CONFIG:
+SPACING = 4
 
-    print('Copy your notes to clipboard, enter when done:')
-    pause = input('> ')
-    todoTxt = pyperclip.paste()
-    todoArray = todoTxt.split('\n')
-    encodedTodos = []
+if __name__ == '__main__':
 
-    blockEncoder(todoArray, encodedTodos)
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print('Welcome to Subnotes! ', end='')
+        choice = menu()
+        if choice not in ['1', '2']:
+            print('Thanks and goodbye!')
+            break
 
-    if choice == '1':
-        sortAll(encodedTodos)
+        print('Copy your notes to clipboard, enter when done:')
+        pause = input('> ')
+        todoTxt = pyperclip.paste()
+        todoArray = todoTxt.split('\n')
+        encodedTodos = []
 
-    elif choice == '2':
-        priorityTagFilter()
+        blockEncoder(todoArray, encodedTodos)
 
-    print('\n\nCool! But, what now?')
-    print(
-    'You may select and this output to your clipboard to put into your personal file system.\n\
-To return to main menu, hit enter.\n\
-If you\'ve got everything you need, hit q to quit.')
-    pause = input('> ')
-    if pause.lower() == 'q':
-        print('Thanks and goodbye!')
-        break
+        if choice == '1':
+            sortAll(encodedTodos)
+
+        elif choice == '2':
+            priorityTagFilter()
+
+        print('\n\nCool! But, what now?')
+        print(
+        'You may select and this output to your clipboard to put into your personal file system.\n\
+    To return to main menu, hit enter.\n\
+    If you\'ve got everything you need, hit q to quit.')
+        pause = input('> ')
+        if pause.lower() == 'q':
+            print('Thanks and goodbye!')
+            break
+
