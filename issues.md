@@ -12,6 +12,13 @@ Data structure now looks like:
 ```
 instead of `'project'`, I'm thinking `'note'` would always be the header and 'project' could always be there as `True` or `False`. Maybe this could be part of a class?
 
+## Globals and Functions
+* How to properly deal with globals?
+* put user-todos into a function.
+* get rid of empty lines in function
+* proper module, if name == main
+* make the encoding style swappable with modules
+
 ## File IO
 * Allow for file-input and output (rather than copy-paste.)
     * pyperclip module (will be most-likely be removed in the future.) [pyperclip 1.5.27 : Python Package Index](https://pypi.python.org/pypi/pyperclip)
