@@ -1,4 +1,17 @@
-# import pprint
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on 7/25/17
+
+@author: davecohen
+
+Title: Subnotes - a plain text notes and tasks system
+    see example below for the expected in format
+    - spaces between each link determine 'blocks'
+    - headers are the first line of a block or a single line.
+"""
+import itertools
+from pprint import pprint
 import os, sys
 import re
 import pyperclip
