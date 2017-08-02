@@ -21,7 +21,16 @@ from datetime import datetime
 SPACING = 4
 
 def spaceChecker(text):
-    '''We want a file that has mod 4 spaces and no tabs'''
+    '''
+    We want a file that has mod 4 spaces and no tabs,
+
+    Args:
+        text: a string of text
+    Returns:
+        the number of leading spaces in the text.abs
+    Raises:
+        sys.exit() if spacing is inconsistent
+    '''
 
     #count how many leading spaces
     spaces = (len(text) - len(text.lstrip()))
@@ -34,6 +43,16 @@ def spaceChecker(text):
     return spaces
 
 def blockEncoder(array, encodedList):
+    '''
+    Main function that...
+
+    Args:
+        array: this is the user's text, list format, split by new line
+        encodedList: this is an empty list (global)
+    Returns:
+        None (global encodedList is manipulated with encoding)
+    '''
+    blocks = [list(g[1]) for g in itertools.groupby(array, key= lambda x: x.strip() != '') if g[0]]
 
     for line in array:
         line = line.replace('\t', ' ' * SPACING)
