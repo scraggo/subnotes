@@ -33,7 +33,7 @@ def spaceChecker(text):
 
     return spaces
 
-def todoEncoder(array, encodedList):
+def blockEncoder(array, encodedList):
 
     for line in array:
         line = line.replace('\t', ' ' * SPACING)
@@ -225,7 +225,7 @@ note with subnotes
 '''
     todoArray = todoTxt2.split('\n')
     encodedTodos2 = []
-    todoEncoder(todoArray, encodedTodos2)
+    blockEncoder(todoArray, encodedTodos2)
     #debug encoded todos
     print(encodedTodos2)
     #prints all
@@ -250,7 +250,7 @@ while True:
     todoArray = todoTxt.split('\n')
     encodedTodos = []
 
-    todoEncoder(todoArray, encodedTodos)
+    blockEncoder(todoArray, encodedTodos)
 
     if choice == '1':
         sortAll(encodedTodos)
