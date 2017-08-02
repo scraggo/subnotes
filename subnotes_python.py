@@ -209,33 +209,46 @@ def printDone(encodedf_list):
 def printAllSorted(encodedf_list):
     '''prints sorted'''
     for item in encodedf_list:
-        # if item not in [[], '']:
-        printHeader(item)
-    # printProjects(encodedf_list)
-    # print()
-        printData(item)
-        print()
-    # printNotes(encodedf_list)
+        if item['header'] not in ['', 'zzzzz']:
+            printHeader(item)
+            if item['data'] == []:
+                print()
+        if item['data'] != []:
+            printData(item)
+            print()
     printDone(encodedf_list)
 
 
-def priorityTagFilter():
-    #Beware of global encodedTodos!
+def priorityTagFilter(encodedf_list):
+    '''
+    This is an example of Google style.
+
+    Args:
+        param1: This is the first param.
+        param2: This is a second param.
+
+    Returns:
+        This is a description of what is returned.
+
+    Raises:
+        KeyError: Raises an exception.
+    '''
     #filter by @!
     print(r'PRIORITY ITEMS - with @! tag')
     print('*'*28)
-    for todoItem in encodedTodos:
-        for v in todoItem.values():
-            if type(v) == str and '@!' in v:
-                printTodo(todoItem)
+    for item in encodedf_list:
+        for k, v in item.items():
+            if k == 'header' and '@!' in v:
+                print(v)
                 print()
-                break #inner loop only?
-            elif type(v) == list:
+                # break #inner loop only?
+            elif k == 'data':
                 for subItem in v:
                     if '@!' in subItem:
-                        printTodo(todoItem)
+                        print(item['header'])
+                        print(subItem)
                         print()
-                        break
+                        # break
 
 def menu():
     print('Choose from the following options:')
@@ -300,7 +313,7 @@ if __name__ == '__main__':
             printAllSorted(encodedTodos)
 
         elif choice == '2':
-            priorityTagFilter()
+            priorityTagFilter(encodedTodos)
 
         print('\n\nCool! But, what now?')
         print(
