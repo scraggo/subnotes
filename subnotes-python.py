@@ -20,16 +20,10 @@ def spaceChecker(text):
 
     return spaces
 
-def replaceTabs(text):
-    '''converts tabs to spaces'''
-    if '\t' in text:
-        return text.replace('\t', ' ' * SPACING)
-    return text
-
 def todoEncoder(array, encodedList):
 
     for line in array:
-        line = replaceTabs(line)
+        line = line.replace('\t', ' ' * SPACING)
         spaces = spaceChecker(line)
         #ignore empty lines
         if len(line.strip()) == 0:
