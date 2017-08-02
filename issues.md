@@ -22,6 +22,7 @@ Maybe this could be part of a class?
 * get rid of empty lines in function
 * proper module, if name == main
 * make the encoding style swappable with modules
+* filter by tag without pasting in todos again...
 
 ## File IO
 * Allow for file-input and output (rather than copy-paste.)
