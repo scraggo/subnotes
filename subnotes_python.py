@@ -48,6 +48,9 @@ def makeBlocks(f_list):
     '''
     return [list(g[1]) for g in itertools.groupby(f_list, key= lambda x: x.strip() != '') if g[0]]
 
+def sortBlocks(f_list):
+    return sorted(f_list, key=lambda k: k['header'].lower())
+
 def blockEncoder(f_list, encodedf_list):
     '''
     Main function that appends dict objects to encodedf_list as such:
@@ -59,26 +62,16 @@ def blockEncoder(f_list, encodedf_list):
 
     Args:
         f_list: this is the user's text, list format, split by new line
-        encodedf_list: this is an empty list (global)
+        encodedf_list: this is an empty list
     Returns:
-        None (global encodedf_list is manipulated with encoding)
+        Sorted encodedf_list by 'header'
     '''
 
     f_list = makeBlocks(f_list)
-
-    # dataBlocks = []
-    # for sublist in blocks:
-    #     if sublist[1]:
-    #         dataBlocks.append({'header': sublist[0], 'data': sublist[1:]})
-    #     else:
-    #         dataBlocks.append({'header': sublist[0], 'data': []})
-    # dataBlocks = sorted(dataBlocks, key=lambda k: k['header'].lower())
-    # # pprint(dataBlocks)
-    # return dataBlocks
     
     for i, block in enumerate(f_list):
         encodedf_list.append({})
-        encodedf_list[i].setdefault('header', [])
+        encodedf_list[i].setdefault('header', 'zzzzz')
         encodedf_list[i].setdefault('data', [])
         encodedf_list[i].setdefault('done', [])
         for line in block:
@@ -89,20 +82,18 @@ def blockEncoder(f_list, encodedf_list):
                 encodedf_list[i]['done'].append(line)
 
             else: #line doesn't start with x
-                if len(block) == 1:
-                    encodedf_list[i]['header'].append(line)
-                elif len(block) > 1:
-                    if line == block[0]:
-                        encodedf_list[i]['header'].append(line)
-                    else:
-                        encodedf_list[i]['data'].append(line)
-
+                if line == block[0]:
+                    encodedf_list[i]['header'] = line.strip()
+                else:
+                    encodedf_list[i]['data'].append(line)
+    # print(encodedf_list)#debug
+    return sortBlocks(encodedf_list)
 
 def printHeader(dataItem):
     '''dataItem is a single dict object from encoded todos'''
 
-    if dataItem['header'] != [],
-        print(dataItem['header'][0])
+    if dataItem['header'] != 'zzzzz':
+        print(dataItem['header'])
 
 def printData(dataItem):
     '''dataItem is a single dict object from encoded todos'''
@@ -131,13 +122,9 @@ def printTodo(todoItem):
 
 def printAllHeaders(encodedf_list):
     '''sort and print'''
-    headerList = []
-    for data in encodedf_list:
-        if data['header']:
-            headerList.append(data['header'][0])
 
     # sort by header name
-    headerList = sorted(headerList, key=lambda k: k.lower())
+    headerList = sorted(encodedf_list, key=lambda k: encodedf_list['header'].lower())
 
     # display headers
     for header in headerList:
@@ -211,20 +198,23 @@ def printDone(encodedf_list):
     for data in doneList:
         # if type(data['done']) == list:
         for doneItem in data['done']:
-            if data['header'] == []:
+            if data['header'] == 'zzzzz':
                 # print('header empty')#debug
                 print(doneItem.strip())
             else:
                 # print('header not empty')#debug
                 # print(doneItem.strip() + ', ' + data['header'][0])
-                print(doneItem.strip() + ' -> ' + data['header'][0])
+                print(doneItem.strip() + ' -> ' + data['header'])
 
-def sortAll(encodedf_list):
+def printAllSorted(encodedf_list):
     '''prints sorted'''
-    printHeader(encodedf_list)
+    for item in encodedf_list:
+        # if item not in [[], '']:
+        printHeader(item)
     # printProjects(encodedf_list)
-    print()
-    printData(encodedf_list)
+    # print()
+        printData(item)
+        print()
     # printNotes(encodedf_list)
     printDone(encodedf_list)
 
@@ -304,10 +294,10 @@ if __name__ == '__main__':
         todoArray = todoTxt.split('\n')
         encodedTodos = []
 
-        blockEncoder(todoArray, encodedTodos)
+        encodedTodos = blockEncoder(todoArray, encodedTodos)
 
         if choice == '1':
-            sortAll(encodedTodos)
+            printAllSorted(encodedTodos)
 
         elif choice == '2':
             priorityTagFilter()
