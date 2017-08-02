@@ -5,12 +5,16 @@
 Data structure now looks like:
 ```
 [
-    {'project': '+projectB', 'done': ['    x note1B'], 'Subnote': ['    note2B']}, {'note': 'note all alone'}, 
-    {'note': 'note with subnotes', 'Subnote': ['    note subnote1 @!', '    note subnote2']}, 
-    {'project': '+projectA @!', 'Subnote': ['    note1A', '    note2A']}
+    {'header': '+Project @tag', 'data': ['    task1 for project', '    task2 for project', '    task3 for project'], 'done': ['    x done item in project', '    x another done item in project']}, 
+    {'header': "Not a project, so it's a note", 'data': ['    subnote with priority tag @!'], 'done': ['    x done item for note']}, 
+    {'header': 'zzzzz', 'data': [], 'done': ['x Top level done item']}, 
+    {'header': 'zzzzz', 'data': [], 'done': ['x Top level done item with tag @!']}, 
+    {'header': 'Note with tag @!', 'data': ['    not done item for a note @tag'], 'done': ['    x done item for note']}
 ]
 ```
-instead of `'project'`, I'm thinking `'note'` would always be the header and 'project' could always be there as `True` or `False`. Maybe this could be part of a class?
+CHANGED:
+{'header': 'zzzzz', 'data': [], 'done': []}
+Maybe this could be part of a class?
 
 ## Globals and Functions
 * How to properly deal with globals?
