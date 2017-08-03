@@ -16,44 +16,7 @@ import itertools
 from datetime import datetime
 import pyperclip
 # import re
-# from pprint import pprint
-
-def spaceChecker(text):
-    '''
-    We want a file that has mod 4 spaces and no tabs.
-
-    Args:
-        text: a string of text with tabs already replaced.
-    Returns:
-        the number of leading spaces in the text
-    Raises:
-        sys.exit() if spacing is inconsistent
-    '''
-
-    #count how many leading spaces
-    spaces = (len(text) - len(text.lstrip()))
-
-    if spaces % SPACING != 0:
-        print('WARNING - INCONSISTENT SPACING!\n>>>' + text)
-        print("has {} spaces. Convert to multiples of {} spaces.".format(spaces, SPACING))
-        sys.exit()
-
-    return spaces
-
-def makeBlocks(f_list):
-    '''
-    Args:
-        f_list: this is the user's text, list format, split by new line
-    Returns:
-        A list of lists where each list is determined by empty lines
-    '''
-    return [list(g[1]) for g in itertools.groupby(f_list, key=lambda x: x.strip() != '') if g[0]]
-
-def sortBlocks(f_list):
-    '''
-    Sorts f_list by key ['header']
-    '''
-    return sorted(f_list, key=lambda k: k['header'].lower())
+from pprint import pprint
 
 def blockEncoder(f_list, encodedf_list):
     '''
@@ -93,6 +56,44 @@ def blockEncoder(f_list, encodedf_list):
     # print(encodedf_list)#debug
     return sortBlocks(encodedf_list)
 
+def spaceChecker(text):
+    '''
+    We want a file that has mod 4 spaces and no tabs.
+
+    Args:
+        text: a string of text with tabs already replaced.
+    Returns:
+        the number of leading spaces in the text
+    Raises:
+        sys.exit() if spacing is inconsistent
+    '''
+
+    #count how many leading spaces
+    spaces = (len(text) - len(text.lstrip()))
+
+    if spaces % SPACING != 0:
+        print('WARNING - INCONSISTENT SPACING!\n>>>' + text)
+        print("has {} spaces. Convert to multiples of {} spaces.".format(spaces, SPACING))
+        sys.exit()
+
+    return spaces
+
+def makeBlocks(f_list):
+    '''
+    Args:
+        f_list: this is the user's text, list format, split by new line
+    Returns:
+        A list of lists where each list is determined by empty lines
+    '''
+    return [list(g[1]) for g in itertools.groupby(f_list, key=lambda x: x.strip() != '') if g[0]]
+
+def sortBlocks(f_list):
+    '''
+    Sorts f_list by key ['header']
+    '''
+    return sorted(f_list, key=lambda k: k['header'].lower())
+
+
 def printHeader(dataItem):
     '''dataItem is a single dict object from encoded todos'''
 
@@ -107,46 +108,6 @@ def printData(dataItem):
             print(item)
 
 
-def printTodo(todoItem):
-    '''todoItem is a single dict object from encoded todos'''
-
-    if 'project' in todoItem:
-        print(todoItem['project'])
-
-    elif 'note' in todoItem:
-        print(todoItem['note'])
-
-    if 'subnote' in todoItem:
-        for subNote in todoItem['subnote']:
-            print(subNote)
-
-    if 'done' in todoItem:
-        for doneItem in todoItem['done']:
-            print(doneItem)
-
-def printAllHeaders(encodedf_list):
-    '''sort and print'''
-
-    # sort by header name
-    headerList = sorted(encodedf_list, key=lambda k: encodedf_list['header'].lower())
-
-    # display headers
-    for header in headerList:
-        print(header)
-
-
-def printAllData(encodedf_list):
-    '''just print'''
-    dataList = []
-    for data in encodedf_list:
-        if data['data']:
-            dataList.append(data['data'])
-
-    # display projects
-    for data in dataList:
-        print(data)
-
-
 def printDone(encodedf_list):
     '''
     Prints done items with timestamp above.
@@ -156,20 +117,24 @@ def printDone(encodedf_list):
 
     # filter by done
     doneList = []
-    for fullData in encodedf_list:
-        if 'done' in fullData:
-            doneList.append(fullData)
+    for todoData in encodedf_list:
+        if len(todoData['done']) > 0:
+            doneList.append(todoData)
+
+    # pprint(doneList)#debug
 
     # display notes
     for data in doneList:
         # if type(data['done']) == list:
-        for doneItem in data['done']:
-            if data['header'] == 'zzzzz':
-                # print('header empty')#debug
+        if data['header'] == 'zzzzz' or len(data['header']) < 1:
+            # print('header empty')#debug
+            for doneItem in data['done']:
                 print(doneItem.strip())
-            else:
+        else:
+            print(data['header'])
+            for doneItem in data['done']:
                 # print('header not empty')#debug
-                print(doneItem.strip() + ' -> ' + data['header'])
+                print('    ' + doneItem.strip())
 
 def printAllSorted(encodedf_list):
     '''prints sorted'''
@@ -186,17 +151,12 @@ def printAllSorted(encodedf_list):
 
 def priorityTagFilter(encodedf_list):
     '''
-    This is an example of Google style.
+    Only print items that contain '@!'
 
     Args:
-        param1: This is the first param.
-        param2: This is a second param.
-
+        encodedf_list: the encoded list
     Returns:
-        This is a description of what is returned.
-
-    Raises:
-        KeyError: Raises an exception.
+        None (only prints)
     '''
     #filter by @!
     print(r'PRIORITY ITEMS - with @! tag')
@@ -206,18 +166,17 @@ def priorityTagFilter(encodedf_list):
             if k == 'header' and '@!' in v:
                 print(v)
                 print()
-                # break #inner loop only?
             elif k == 'data':
                 for subItem in v:
                     if '@!' in subItem:
                         print(item['header'])
                         print(subItem)
                         print()
-                        # break
+
 
 def menu():
     '''
-    Prints a menu and gets user choice.
+    Prints a menu, gets user choice input, returns input (string).
     '''
     print('Choose from the following options:')
     print('''    1. Order your notes alphabetically.
@@ -226,38 +185,6 @@ def menu():
     f_choice = input('> ')
     return f_choice
 
-def debugPrintAll():
-    '''
-    Prints a test (need to rework)
-    '''
-    #test - rename without '2' at end
-    todoTxt2 = '''
-+projectB
-    x note1B
-    note2B
-    
-note all alone
-
-note with subnotes
-    note subnote1 @!
-    note subnote2
-
-+projectA @!
-    note1A
-    note2A
-'''
-    f_todoArray = todoTxt2.split('\n')
-    encodedTodos2 = []
-    blockEncoder(f_todoArray, encodedTodos2)
-    #debug encoded todos
-    print(encodedTodos2)
-    #prints all
-    for todoItem in encodedTodos2:
-        printTodo(todoItem) #see function, rename var
-        print()
-
-# debugPrintAll()
-# pause = input('>')
 
 #GLOBAL, QUICK CONFIG:
 SPACING = 4
@@ -268,7 +195,7 @@ if __name__ == '__main__':
         os.system('cls' if os.name == 'nt' else 'clear')
         print('Welcome to Subnotes! ', end='')
         choice = menu()
-        if choice not in ['1', '2']:
+        if choice not in ['1', '2', '']:
             print('Thanks and goodbye!')
             break
 
@@ -280,7 +207,7 @@ if __name__ == '__main__':
 
         encodedTodos = blockEncoder(todoArray, encodedTodos)
 
-        if choice == '1':
+        if choice in ['1', '']: #default if user presses enter
             printAllSorted(encodedTodos)
 
         elif choice == '2':
