@@ -1,0 +1,23 @@
++Project1 @tag
+    x done item in project
+    task1 for project
+    x another done item in project
+    task2 for project
+    task3 for project
+    x 3rd done item in project
+
+Not a project, so it's a note
+    x done item for note
+    subnote with priority tag @!
+
+x Top level done item
+
+x Top level done item with tag @!
+
+note, no subnotes 1
+
+note, no subnotes 2
+
+Note with tag @!
+    x done item for note
+    not done item for a note @tag
