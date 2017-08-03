@@ -12,6 +12,9 @@ Not a project, so it's a note
 
 x Top level done item
 
+x Top level done item with subnote
+subnote for done header
+
 x Top level done item with tag @!
 
 note, no subnotes 1

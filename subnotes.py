@@ -38,26 +38,30 @@ def blockEncoder(f_list, encodedf_list):
 
     for i, block in enumerate(f_list):
         encodedf_list.append({})
-        encodedf_list[i].setdefault('header', 'zzzzz')
+        # headers are encoded as 'zzzzzZZZZZ' if first line is preceded by 'x'
+        encodedf_list[i].setdefault('header', 'zzzzzZZZZZ')
         encodedf_list[i].setdefault('data', [])
         encodedf_list[i].setdefault('done', [])
         for line in block:
+            #fix spacing and convert tabs to spaces
             line = line.replace('\t', ' ' * SPACING)
-            spaces = spaceChecker(line) #error if spacing is off
+            spaces = spaceChecker(line)
             if spaces % 4 != 0:
                 if spaces < 4:
                     line = '    ' + line.strip()
                 else:
                     line = '        ' + line.strip()
+
+            # done items start with x
             if line.strip().startswith('x '):
                 encodedf_list[i]['done'].append(line)
 
-            else: #line doesn't start with x
-                if line == block[0]:
+            else: 
+                if line == block[0]: # line is the 'header'
                     encodedf_list[i]['header'] = line.strip()
-                else:
+                else: # line is 'data'
                     encodedf_list[i]['data'].append(line)
-    # print(encodedf_list)#debug
+
     return sortBlocks(encodedf_list)
 
 def spaceChecker(text):
@@ -101,7 +105,7 @@ def sortBlocks(f_list):
 def printHeader(dataItem):
     '''dataItem is a single dict object from encoded todos'''
 
-    if dataItem['header'] != 'zzzzz':
+    if dataItem['header'] != 'zzzzzZZZZZ':
         print(dataItem['header'])
 
 def printData(dataItem):
@@ -130,7 +134,7 @@ def printDone(encodedf_list):
     # display notes
     for data in doneList:
         # if type(data['done']) == list:
-        if data['header'] == 'zzzzz' or len(data['header']) < 1:
+        if data['header'] == 'zzzzzZZZZZ' or len(data['header']) < 1:
             # print('header empty')#debug
             for doneItem in data['done']:
                 print(doneItem.strip())
@@ -143,7 +147,7 @@ def printDone(encodedf_list):
 def printAllSorted(encodedf_list):
     '''prints sorted'''
     for item in encodedf_list:
-        if item['header'] not in ['', 'zzzzz']:
+        if item['header'] not in ['', 'zzzzzZZZZZ']:
             printHeader(item)
             if item['data'] == []:
                 print()

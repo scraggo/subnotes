@@ -53,7 +53,7 @@ print()
 
 # printDone
 pdtest = blockEncoder(text, [])
-pprint(pdtest)
+# pprint(pdtest)
 printDone(pdtest)
 
 print()
