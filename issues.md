@@ -31,6 +31,7 @@ Maybe this could be part of a class?
 ## Filtering
 * Instead of `print()`, it might be better to collect what needs to be printed, then use a generic print formatting function. You'll see that in the defined functions with 'print' in them.
 * The `re` module will be necessary for doing more than filtering by priority (@!) tag. Not sure how to implement at the moment. Ideally, I'd be able to filter just project names as well.
+* if multiple 'x' (done items) it looks kind of ugly.
 
 ## Spacing
 * Allow for user to set their spacing preferences. Currently, an error occurs if spacing isn't in multiples of 4. This isn't very flexible (and probably unnecessary.)
