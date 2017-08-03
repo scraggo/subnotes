@@ -43,8 +43,12 @@ def blockEncoder(f_list, encodedf_list):
         encodedf_list[i].setdefault('done', [])
         for line in block:
             line = line.replace('\t', ' ' * SPACING)
-            spaceChecker(line) #error if spacing is off
-
+            spaces = spaceChecker(line) #error if spacing is off
+            if spaces % 4 != 0:
+                if spaces < 4:
+                    line = '    ' + line.strip()
+                else:
+                    line = '        ' + line.strip()
             if line.strip().startswith('x '):
                 encodedf_list[i]['done'].append(line)
 
@@ -71,10 +75,10 @@ def spaceChecker(text):
     #count how many leading spaces
     spaces = (len(text) - len(text.lstrip()))
 
-    if spaces % SPACING != 0:
-        print('WARNING - INCONSISTENT SPACING!\n>>>' + text)
-        print("has {} spaces. Convert to multiples of {} spaces.".format(spaces, SPACING))
-        sys.exit()
+    # if spaces % SPACING != 0:
+    #     print('WARNING - INCONSISTENT SPACING!\n>>>' + text)
+    #     print("has {} spaces. Convert to multiples of {} spaces.".format(spaces, SPACING))
+    #     sys.exit()
 
     return spaces
 
