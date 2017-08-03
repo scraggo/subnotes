@@ -80,7 +80,7 @@ def blockEncoder(f_list, encodedf_list):
         encodedf_list[i].setdefault('done', [])
         for line in block:
             line = line.replace('\t', ' ' * SPACING)
-            spaces = spaceChecker(line) #error if spacing is off
+            spaceChecker(line) #error if spacing is off
 
             if line.strip().startswith('x '):
                 encodedf_list[i]['done'].append(line)
