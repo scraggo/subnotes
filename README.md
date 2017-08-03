@@ -1,28 +1,30 @@
 # subnotes-python
 
-Subnotes is a plaintext-based system for note taking and task-management. Taking inspiration from Taskpaper and the todo.txt system, you can keep your notes and subnotes in a simple format: a header line (note) with indented lines (subnotes) right below.
+Subnotes is a plaintext-based system for note taking and task-management. Taking inspiration from Taskpaper and the todo.txt system, you can keep your notes and subnotes in a simple format: a header line with lines (subnotes) right below. Subnotes can optionally be indented to add structure to your notes.
 
-*Subnotes remain attached to the header line if they're indented by multiples of 4 spaces or tabs\*. There's only one level of subnotes, but feel free to indent as much as you like.*
-
-*\*Tabs are automatically converted to spaces.*
+*Subnotes remain attached to the header line as long as there are no blank lines. If they're indented by tabs, they'll be converted to multiples of 4 spaces. Spacing that doesn't follow 4's are converted to 4 or 8 spaces.*
 
 ## Current Features
-* **Organize your notes:** You can sort all items in alphabetical order with projects (prefixed by '+') on top and non-prefixed notes below. 
+* **Organize your notes:** You can sort all items by header in alphabetical order.
 * **Easily clear your done items:** All done items (prefixed by 'x ') will be placed at the bottom of a file with a time stamp.
 * **See what's next:** You can choose to display only your priority tag (@!) notes.
 
 ## Usage
 
-The first command prompt asks for your choice of sorting your notes or seeing only your priority items. Then, you're asked to copy your notes to your clipboard (in this format:)
+The first command prompt asks for your choice of sorting your notes or seeing only your priority items. Then, you're asked to copy your notes to your clipboard (in a format similar to this:)
 ```
-+Project @tag
+Header line 1
+part of this block
+also part of the block
+
++I use a prefix so I'll be put on top
     x done item in project
     task1 for project
     x another done item in project
     task2 for project
-    task3 for project
+    we're indented for fun!
 
-Not a project, so it's a note
+No need for a prefix @tag
     x done item for note
     subnote with priority tag @!
 
@@ -38,24 +40,31 @@ Note with tag @!
 
 The sorted output:
 ```
-+Project @tag
++I use a prefix so I'll be put on top
     task1 for project
     task2 for project
-    task3 for project
+    we're indented for fun!
 
-Not a project, so it's a note
+Header line 1
+part of this block
+also part of the block
+
+No need for a prefix @tag
     subnote with priority tag @!
 
 Note with tag @!
     not done item for a note @tag
 
-2017-07-23 17:45:44.704704
-x done item in project, +Project @tag
-x another done item in project, +Project @tag
-x done item for note, (Not a project,...)
+2017-08-03 18:50:24.021893
++I use a prefix so I'll be put on top
+    x done item in project
+    x another done item in project
+No need for a prefix @tag
+    x done item for note
+Note with tag @!
+    x done item for note
 x Top level done item
 x Top level done item with tag @!
-x done item for note, (Note with tag ...)
 ```
 At this point, you can copy your notes into your personal file system.
 
@@ -75,7 +84,6 @@ Note with tag @!
 ```
 
 ## Requirements
-* You can convert tabs to 4 spaces using [Replace and Convert Tabs To Spaces Online.](http://tabstospaces.com/) - this will be fixed in the future. Currently, an error occurs if spacing isn't in multiples of 4.
 * pyperclip module (will be most-likely be removed in the future.) [pyperclip 1.5.27 : Python Package Index](https://pypi.python.org/pypi/pyperclip)
 
 ## Features to add
