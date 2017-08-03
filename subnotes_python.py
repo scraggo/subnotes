@@ -10,12 +10,13 @@ Title: Subnotes - a plain text notes and tasks system
     - spaces between each link determine 'blocks'
     - headers are the first line of a block or a single line.
 """
+import os
+import sys
 import itertools
-from pprint import pprint
-import os, sys
-import re
-import pyperclip
 from datetime import datetime
+import pyperclip
+# import re
+# from pprint import pprint
 
 def spaceChecker(text):
     '''
@@ -46,9 +47,12 @@ def makeBlocks(f_list):
     Returns:
         A list of lists where each list is determined by empty lines
     '''
-    return [list(g[1]) for g in itertools.groupby(f_list, key= lambda x: x.strip() != '') if g[0]]
+    return [list(g[1]) for g in itertools.groupby(f_list, key=lambda x: x.strip() != '') if g[0]]
 
 def sortBlocks(f_list):
+    '''
+    Sorts f_list by key ['header']
+    '''
     return sorted(f_list, key=lambda k: k['header'].lower())
 
 def blockEncoder(f_list, encodedf_list):
@@ -68,7 +72,7 @@ def blockEncoder(f_list, encodedf_list):
     '''
 
     f_list = makeBlocks(f_list)
-    
+
     for i, block in enumerate(f_list):
         encodedf_list.append({})
         encodedf_list[i].setdefault('header', 'zzzzz')
@@ -76,7 +80,7 @@ def blockEncoder(f_list, encodedf_list):
         encodedf_list[i].setdefault('done', [])
         for line in block:
             line = line.replace('\t', ' ' * SPACING)
-            spaces = spaceChecker(line)
+            spaces = spaceChecker(line) #error if spacing is off
 
             if line.strip().startswith('x '):
                 encodedf_list[i]['done'].append(line)
@@ -138,53 +142,15 @@ def printAllData(encodedf_list):
         if data['data']:
             dataList.append(data['data'])
 
-    # sort by data name
-    # dataList = sorted(dataList, key=lambda k: k.lower())
-
     # display projects
     for data in dataList:
         print(data)
 
-# def printProjects(encodedf_list):
-#     # print('\nPROJECTS:\n')
-#     # filter by projects
-#     projectList = []
-#     for data in encodedf_list:
-#         if 'project' in data:
-#             projectList.append(data)
-
-#     # sort by project name
-#     projectList2 = sorted(projectList, key=lambda k: k['project'].lower())
-
-#     # display projects
-#     for project in projectList2:
-#         print(project['project'])
-#         if 'subnote' in project:
-#             for note in project['subnote']:
-#                 print(note) #with 4 preceding spaces?
-
-# def printNotes(encodedf_list):
-#     # print('\nNOTES:\n')
-#     # filter by notes
-#     noteList = []
-#     for data in encodedf_list:
-#         if 'project' not in data and 'note' in data: #and 'done' not in data (removed)
-#             noteList.append(data)
-
-#     # sort by note name
-#     noteList2 = sorted(noteList, key=lambda k: k['note'].lower())
-
-#     # display notes
-#     for note in noteList2:
-#         print(note['note'])
-#         if 'subnote' in note:
-#             for note in note['subnote']:
-#                 print(note) #with 4 preceding spaces?
-#         print()
 
 def printDone(encodedf_list):
-    # print('DONE:')
-
+    '''
+    Prints done items with timestamp above.
+    '''
     #prints the current date and time
     print(str(datetime.now()))
 
@@ -192,7 +158,7 @@ def printDone(encodedf_list):
     doneList = []
     for fullData in encodedf_list:
         if 'done' in fullData:
-            doneList.append(fullData)    
+            doneList.append(fullData)
 
     # display notes
     for data in doneList:
@@ -203,7 +169,6 @@ def printDone(encodedf_list):
                 print(doneItem.strip())
             else:
                 # print('header not empty')#debug
-                # print(doneItem.strip() + ', ' + data['header'][0])
                 print(doneItem.strip() + ' -> ' + data['header'])
 
 def printAllSorted(encodedf_list):
@@ -251,14 +216,20 @@ def priorityTagFilter(encodedf_list):
                         # break
 
 def menu():
+    '''
+    Prints a menu and gets user choice.
+    '''
     print('Choose from the following options:')
     print('''    1. Order your notes alphabetically.
     2. Display priority tag (@!) notes.
     q. Quit''')
-    choice = input('> ')
-    return choice
+    f_choice = input('> ')
+    return f_choice
 
 def debugPrintAll():
+    '''
+    Prints a test (need to rework)
+    '''
     #test - rename without '2' at end
     todoTxt2 = '''
 +projectB
@@ -275,9 +246,9 @@ note with subnotes
     note1A
     note2A
 '''
-    todoArray = todoTxt2.split('\n')
+    f_todoArray = todoTxt2.split('\n')
     encodedTodos2 = []
-    blockEncoder(todoArray, encodedTodos2)
+    blockEncoder(f_todoArray, encodedTodos2)
     #debug encoded todos
     print(encodedTodos2)
     #prints all
@@ -302,7 +273,7 @@ if __name__ == '__main__':
             break
 
         print('Copy your notes to clipboard, enter when done:')
-        pause = input('> ')
+        user_pause = input('> ')
         todoTxt = pyperclip.paste()
         todoArray = todoTxt.split('\n')
         encodedTodos = []
@@ -317,11 +288,10 @@ if __name__ == '__main__':
 
         print('\n\nCool! But, what now?')
         print(
-        'You may select and this output to your clipboard to put into your personal file system.\n\
+            'You may select and this output to your clipboard to put into your personal file system.\n\
     To return to main menu, hit enter.\n\
     If you\'ve got everything you need, hit q to quit.')
         pause = input('> ')
         if pause.lower() == 'q':
             print('Thanks and goodbye!')
             break
-
