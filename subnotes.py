@@ -64,7 +64,7 @@ def blockEncoder(f_list, encodedf_list):
 
     return sortBlocks(encodedf_list)
 
-def spaceChecker(text):
+def spaceChecker(f_text):
     '''
     We want a file that has mod 4 spaces and no tabs.
 
@@ -77,10 +77,10 @@ def spaceChecker(text):
     '''
 
     #count how many leading spaces
-    spaces = (len(text) - len(text.lstrip()))
+    spaces = (len(f_text) - len(f_text.lstrip()))
 
     # if spaces % SPACING != 0:
-    #     print('WARNING - INCONSISTENT SPACING!\n>>>' + text)
+    #     print('WARNING - INCONSISTENT SPACING!\n>>>' + f_text)
     #     print("has {} spaces. Convert to multiples of {} spaces.".format(spaces, SPACING))
     #     sys.exit()
 
@@ -102,17 +102,16 @@ def sortBlocks(f_list):
     return sorted(f_list, key=lambda k: k['header'].lower())
 
 
-def printHeader(dataItem):
-    '''dataItem is a single dict object from encoded todos'''
+def printHeader(f_dataItem):
+    '''f_dataItem is a single dict object from encoded todos'''
 
-    if dataItem['header'] != 'zzzzzZZZZZ':
-        print(dataItem['header'])
+    if f_dataItem['header'] != 'zzzzzZZZZZ':
+        print(f_dataItem['header'])
 
-def printData(dataItem):
-    '''dataItem is a single dict object from encoded todos'''
-
-    if dataItem['data'] != []:
-        for item in dataItem['data']:
+def printData(f_dataItem):
+    '''f_dataItem is a single dict object from encoded todos'''
+    if f_dataItem['data'] != []:
+        for item in f_dataItem['data']:
             print(item)
 
 
