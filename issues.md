@@ -15,7 +15,8 @@
 
 ## Filtering
 - [X] Instead of `print()`, it might be better to collect what needs to be printed, then use a generic print formatting function. You'll see that in the defined functions with 'print' in them.
-- [ ] The `re` module will be necessary for doing more than filtering by priority (@!) tag. Not sure how to implement at the moment. Ideally, I'd be able to filter just project names as well.
+- [ ] Add filter for tags. Use `re` module. 
+- [ ] Add filter for just project names (headers)
 - [X] if multiple 'x' (done items) it looks kind of ugly.
 
 ## Spacing
