@@ -10,14 +10,14 @@ Not a project, so it's a note
     x done item for note
     subnote with priority tag @!
 
-x Top level done item
+x Top level done item @innertag embedded tag
 
 x Top level done item with subnote
 subnote for done header
 
 x Top level done item with tag @!
 
-note, no subnotes 1
+note, no subnotes 1 lots of tags @! @tag @othertag @crazy
 
 note, no subnotes 2
 

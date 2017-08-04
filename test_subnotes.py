@@ -44,7 +44,7 @@ print('='*40)
 print()
 
 # blockEncoder - relies on sortBlocks
-# pprint(blockEncoder(text, []))
+pprint(blockEncoder(text, []))
 
 print()
 print('='*40)
@@ -69,3 +69,29 @@ for pdata in pdatatest:
 print()
 print('='*40)
 print()
+
+
+# findTag proto function
+'''
+fttest = blockEncoder(text, [])
+tagRegex = re.compile(r'\B@\S+')
+for ftdata in fttest:
+    for ftkey, ftvalue in ftdata.items():
+        if ftkey == 'header':
+            searchkey = ftvalue
+            tagList = tagRegex.findall(searchkey)
+            if tagList:
+                print('header tags:')
+                print(tagList)
+        elif ftkey == 'data':
+            for ftditem in ftvalue:
+                searchkey = ftditem
+                tagList = tagRegex.findall(searchkey)
+                if tagList:
+                    print('data tags:')
+                    print(tagList)
+
+print()
+print('='*40)
+print()
+'''
