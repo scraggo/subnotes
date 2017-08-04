@@ -88,6 +88,7 @@ Note with tag @!
 ```
 
 ## Requirements
+* Python 3.x
 * pyperclip module (will be most-likely be removed in the future.) [pyperclip 1.5.27 : Python Package Index](https://pypi.python.org/pypi/pyperclip)
 
 ## Features to add
