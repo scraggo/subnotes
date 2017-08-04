@@ -151,6 +151,22 @@ def printDone(encodedf_list):
                 # print('header not empty')#debug
                 print('    ' + doneItem.strip())
 
+def printAllTags(encodedf_list):
+    """
+    prints all the tags, sorted in abc order with no duplicates
+    """
+    sortedtags = []
+    for item in encodedf_list:
+        tagslist = item['tags']
+        if tagslist != []:
+            for tag in tagslist:
+                if tag not in sortedtags:
+                    sortedtags.append(tag)
+
+    for s_tag in sorted(sortedtags):
+        print(s_tag, end=' ')
+
+
 def printAllSorted(encodedf_list):
     '''prints sorted'''
     for item in encodedf_list:
@@ -164,32 +180,32 @@ def printAllSorted(encodedf_list):
     printDone(encodedf_list)
 
 
-def priorityTagFilter(encodedf_list):
+def tagFilter(encodedf_list):
     '''
-    Only print projects that contain f_tag input by user'
+    Only print projects that contain f_tag input by user.
+    Done items with tags are not included.
 
     Args:
         encodedf_list: the encoded list
     Returns:
         None (only prints)
     '''
+    print('Your Tags: ', end='')
+    printAllTags(encodedf_list)
+    print()
     #get user input
-    f_tag = input('Search for tags (include @) > ')
+    f_tag = input('Tag to search (include @): ')
     #filter by f_tag
     print('*'*28)
     print('Projects with {} tag'.format(f_tag))
     print('*'*28)
     for item in encodedf_list:
         for k, v in item.items():
-            if k == 'tags' and f_tag in v:
-                print(item['header'])
-                # print()
-            # elif k == 'data':
-            #     for subItem in v:
-            #         if '@!' in subItem:
-            #             print(item['header'])
-            #             print(subItem)
-            #             print()
+            if k == 'tags':
+                for str_tag in v:
+                    if str_tag.find(f_tag) > -1:
+                        print(item['header'])
+                        break
 
 
 def menu():
@@ -229,7 +245,7 @@ if __name__ == '__main__':
             printAllSorted(encodedTodos)
 
         elif choice == '2':
-            priorityTagFilter(encodedTodos)
+            tagFilter(encodedTodos)
 
         print('\n\nCool! But, what now?')
         print(
