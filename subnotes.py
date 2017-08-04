@@ -166,27 +166,30 @@ def printAllSorted(encodedf_list):
 
 def priorityTagFilter(encodedf_list):
     '''
-    Only print items that contain '@!'
+    Only print projects that contain f_tag input by user'
 
     Args:
         encodedf_list: the encoded list
     Returns:
         None (only prints)
     '''
-    #filter by @!
-    print(r'PRIORITY ITEMS - with @! tag')
+    #get user input
+    f_tag = input('Search for tags (include @) > ')
+    #filter by f_tag
+    print('*'*28)
+    print('Projects with {} tag'.format(f_tag))
     print('*'*28)
     for item in encodedf_list:
         for k, v in item.items():
-            if k == 'header' and '@!' in v:
-                print(v)
-                print()
-            elif k == 'data':
-                for subItem in v:
-                    if '@!' in subItem:
-                        print(item['header'])
-                        print(subItem)
-                        print()
+            if k == 'tags' and f_tag in v:
+                print(item['header'])
+                # print()
+            # elif k == 'data':
+            #     for subItem in v:
+            #         if '@!' in subItem:
+            #             print(item['header'])
+            #             print(subItem)
+            #             print()
 
 
 def menu():

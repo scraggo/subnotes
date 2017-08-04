@@ -95,3 +95,10 @@ print()
 print('='*40)
 print()
 '''
+# priorityTagFilter
+ptagtest = blockEncoder(text, [])
+priorityTagFilter(ptagtest)
+
+print()
+print('='*40)
+print()
