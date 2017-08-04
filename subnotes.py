@@ -11,19 +11,20 @@ Title: Subnotes - a plain text notes and tasks system
     - headers are the first line of a block or a single line.
 """
 import os
-import sys
+# import sys
 import itertools
 from datetime import datetime
 import pyperclip
-# import re
+import re
 from pprint import pprint
+
 
 def blockEncoder(f_list, encodedf_list):
     '''
     Main function that appends dict objects to encodedf_list as such:
     [
-    {'project': '+projectB', 'done': ['    x note1B'], 'Subnote': ['    note2B']}, {'note': 'note all alone'}, 
-    {'note': 'note with subnotes', 'Subnote': ['    note subnote1 @!', '    note subnote2']}, 
+    {'project': '+projectB', 'done': ['    x note1B'], 'Subnote': ['    note2B']}, {'note': 'note all alone'},
+    {'note': 'note with subnotes', 'Subnote': ['    note subnote1 @!', '    note subnote2']},
     {'project': '+projectA @!', 'Subnote': ['    note1A', '    note2A']}
     ]
 
@@ -35,12 +36,14 @@ def blockEncoder(f_list, encodedf_list):
     '''
 
     f_list = makeBlocks(f_list)
+    tagRegex = re.compile(r'\B@\S+')
 
     for i, block in enumerate(f_list):
         encodedf_list.append({})
-        # headers are encoded as 'zzzzzZZZZZ' if first line is preceded by 'x'
+        # headers are encoded as 'zzzzzZZZZZ' if first and only line is preceded by 'x'
         encodedf_list[i].setdefault('header', 'zzzzzZZZZZ')
         encodedf_list[i].setdefault('data', [])
+        encodedf_list[i].setdefault('tags', [])
         encodedf_list[i].setdefault('done', [])
         for line in block:
             #fix spacing and convert tabs to spaces
@@ -56,11 +59,16 @@ def blockEncoder(f_list, encodedf_list):
             if line.strip().startswith('x '):
                 encodedf_list[i]['done'].append(line)
 
-            else: 
+            else:
                 if line == block[0]: # line is the 'header'
                     encodedf_list[i]['header'] = line.strip()
                 else: # line is 'data'
                     encodedf_list[i]['data'].append(line)
+
+                tagList = tagRegex.findall(line)
+                if tagList:
+                    for tag in tagList:
+                        encodedf_list[i]['tags'].append(tag)
 
     return sortBlocks(encodedf_list)
 
