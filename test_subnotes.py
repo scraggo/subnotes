@@ -59,3 +59,13 @@ printDone(pdtest)
 print()
 print('='*40)
 print()
+
+
+# printData
+pdatatest = blockEncoder(text, [])
+for pdata in pdatatest:
+    printData(pdata)
+
+print()
+print('='*40)
+print()
