@@ -15,8 +15,9 @@
 
 ## Filtering
 - [X] Instead of `print()`, it might be better to collect what needs to be printed, then use a generic print formatting function. You'll see that in the defined functions with 'print' in them.
-- [ ] Add filter for tags. Use `re` module. 
-- [ ] Add filter for just project names (headers)
+- [X] Add filter for tags. Use `re` module. 
+- [ ] Display lines with tags
+- [X] Add filter for just project names (headers)
 - [X] if multiple 'x' (done items) it looks kind of ugly.
 
 ## Spacing
