@@ -11,7 +11,11 @@ Subnotes is a plaintext-based system for note taking and task-management. Taking
 
 ## Usage
 
-The first command prompt asks for your choice of sorting your notes or seeing only your priority items. Then, you're asked to copy your notes to your clipboard (in a format similar to this:)
+* Download subnotes.py
+
+* Run `python subnotes.py` at the terminal.
+
+* The first command prompt asks for your choice of sorting your notes or seeing only your priority items. Then, you're asked to copy your notes to your clipboard (in a format similar to this:)
 ```
 Header line 1
 part of this block
