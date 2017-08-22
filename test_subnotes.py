@@ -54,7 +54,7 @@ print()
 # printDone
 pdtest = blockEncoder(text, [])
 # pprint(pdtest)
-printDone(pdtest)
+print(printDone(pdtest))
 
 print()
 print('='*40)
@@ -97,7 +97,7 @@ print()
 '''
 # tagFilter
 ptagtest = blockEncoder(text, [])
-tagFilter(ptagtest)
+# tagFilter(ptagtest)
 
 print()
 print('='*40)
@@ -112,3 +112,9 @@ print()
 print('='*40)
 print()
 '''
+
+
+#returnAllSorted(encodedf_list)
+print('returnAllSorted test')
+rtstest = blockEncoder(text, [])
+print(returnAllSorted(rtstest))

@@ -128,28 +128,36 @@ def printDone(encodedf_list):
     Prints done items with timestamp above.
     '''
     #prints the current date and time
-    print(str(datetime.now()))
+    time_now = str(datetime.now())
+    print(time_now)
 
     # filter by done
     doneList = []
     for todoData in encodedf_list:
         if len(todoData['done']) > 0:
-            doneList.append(todoData)
+            # doneList.append(todoData)
 
-    # pprint(doneList)#debug
+            # pprint(doneList)#debug
 
-    # display notes
-    for data in doneList:
-        # if type(data['done']) == list:
-        if data['header'] == 'zzzzzZZZZZ' or len(data['header']) < 1:
-            # print('header empty')#debug
-            for doneItem in data['done']:
-                print(doneItem.strip())
-        else:
-            print(data['header'])
-            for doneItem in data['done']:
-                # print('header not empty')#debug
-                print('    ' + doneItem.strip())
+            # display notes
+            # for data in doneList:
+                # pass
+            # if type(data['done']) == list:
+            if todoData['header'] == 'zzzzzZZZZZ' or len(todoData['header']) < 1:
+                # print('header empty')#debug
+                for doneItem in todoData['done']:
+                    print(doneItem.strip())
+                    doneList.append(doneItem.strip())
+            else:
+                print(todoData['header'])
+                doneList.append(todoData['header'])
+                for doneItem in todoData['done']:
+                    # print('header not empty')#debug
+                    print('    ' + doneItem.strip())
+                    doneList.append('    ' + doneItem.strip())
+
+    return doneList.insert(0, time_now)
+
 
 def printAllTags(encodedf_list):
     """
@@ -178,6 +186,44 @@ def printAllSorted(encodedf_list):
             printData(item)
             print()
     printDone(encodedf_list)
+
+def returnAllSorted(encodedf_list):
+    '''returns all items sorted as a string for printing or clipboard.'''
+
+    allSorted = []
+    doneList = []
+
+    for item in encodedf_list:
+        if item['header'] not in ['', 'zzzzzZZZZZ']:
+            allSorted.append(item['header'])
+            if item['data'] == []:
+                allSorted.append('\n')
+        if item['data'] != []:
+            allSorted.extend(item['data'])
+            allSorted.append('\n')
+        if len(item['done']) > 0:
+            #append to separate list
+            doneList.append(item)
+            
+    #put done items at end of list with timestamp
+
+    #prints the current date and time
+    allSorted.append(str(datetime.now()))
+
+    # append done items to list
+    for data in doneList:
+        # if type(data['done']) == list:
+        if data['header'] == 'zzzzzZZZZZ' or len(data['header']) < 1:
+            # print('header empty')#debug
+            for doneItem in data['done']:
+                allSorted.append(doneItem.strip())
+        else:
+            allSorted.append(data['header'])
+            for doneItem in data['done']:
+                # print('header not empty')#debug
+                allSorted.append('    ' + doneItem.strip())
+                
+    return '\n'.join(allSorted)
 
 
 def tagFilter(encodedf_list):
