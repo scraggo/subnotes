@@ -89,13 +89,12 @@ Note with tag @!
 
 ## Requirements
 * Python 3.x
-* pyperclip module (will be most-likely be removed in the future.) [pyperclip 1.5.27 : Python Package Index](https://pypi.python.org/pypi/pyperclip)
+* pyperclip module [pyperclip 1.5.27 : Python Package Index](https://pypi.python.org/pypi/pyperclip)
 
 ## Features to add
 This is a work in progress and could use some help. I hope to eventually implement:
 
-* Filter your notes by project, note name, or tags.
-* Allow for file-input and output (rather than copy-paste.)
-* Allow for user to set their spacing preferences.
+* [ ] Filter your notes by project, note name, or tags.
+* [ ] Allow for file-input and output (rather than utilizing the clipboard with pyperclip.)
 
 see [issues.md](https://github.com/scraggo/subnotes-python/blob/master/issues.md)
