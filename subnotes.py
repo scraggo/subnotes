@@ -277,8 +277,9 @@ SPACING = 4
 
 if __name__ == '__main__':
 
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     while True:
-        os.system('cls' if os.name == 'nt' else 'clear')
         print('Welcome to Subnotes! ', end='')
         choice = menu()
         if choice not in ['1', '2', '']:
@@ -300,12 +301,13 @@ if __name__ == '__main__':
         elif choice == '2':
             tagFilter(encodedTodos)
 
-        print('\n\nCool! But, what now?')
-        print(
-            'You may select and this output to your clipboard to put into your personal file system.\n\
-    To return to main menu, hit enter.\n\
-    If you\'ve got everything you need, hit q to quit.')
+'''
+        # print('\n\nCool! But, what now?')
+        print('\n\n\
+Main menu: Enter\n\
+Quit: q')
         pause = input('> ')
         if pause.lower() == 'q':
             print('Thanks and goodbye!')
             break
+'''
