@@ -194,13 +194,19 @@ def returnAllSorted(encodedf_list):
     doneList = []
 
     for item in encodedf_list:
+        header_exists = True
+
         if item['header'] not in ['', 'zzzzzZZZZZ']:
-            allSorted.append(item['header'])
-            if item['data'] == []:
-                allSorted.append('\n')
-        if item['data'] != []:
-            allSorted.extend(item['data'])
-            allSorted.append('\n')
+            allSorted.append('\n' + item['header'].rstrip())
+        else:
+            header_exists = False
+
+        if len(item['data']) > 0:
+            if not header_exists:
+                allSorted.append('')
+            for data_item in item['data']:
+                allSorted.append(data_item.rstrip())
+
         if len(item['done']) > 0:
             #append to separate list
             doneList.append(item)
@@ -208,7 +214,7 @@ def returnAllSorted(encodedf_list):
     #put done items at end of list with timestamp
 
     #prints the current date and time
-    allSorted.append(str(datetime.now()))
+    allSorted.append('\n' + str(datetime.now()))
 
     # append done items to list
     for data in doneList:
@@ -224,6 +230,7 @@ def returnAllSorted(encodedf_list):
                 allSorted.append('    ' + doneItem.strip())
                 
     return '\n'.join(allSorted)
+    # return str(allSorted)
 
 
 def tagFilter(encodedf_list):
