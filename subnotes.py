@@ -230,7 +230,6 @@ def returnAllSorted(encodedf_list):
                 allSorted.append('    ' + doneItem.strip())
                 
     return '\n'.join(allSorted)
-    # return str(allSorted)
 
 
 def tagFilter(encodedf_list):
@@ -295,7 +294,8 @@ if __name__ == '__main__':
         encodedTodos = blockEncoder(todoArray, encodedTodos)
 
         if choice in ['1', '']: #default if user presses enter
-            printAllSorted(encodedTodos)
+            pyperclip.copy(returnAllSorted(encodedTodos))
+            print('\nYour sorted notes were copied to your clipboard.\n')
 
         elif choice == '2':
             tagFilter(encodedTodos)
