@@ -1,3 +1,6 @@
+z title should be low
+subnote below z title
+
 +Project1 @tag
     x done item in project
     task1 for project @!!!
