@@ -3,20 +3,20 @@
 """
 Created on 7/25/17
 
-@author: davecohen
+@author: scraggo (github.com/scraggo)
 
 Title: Subnotes - a plain text notes and tasks system
     see example below for the expected in format
     - spaces between each link determine 'blocks'
     - headers are the first line of a block or a single line.
 """
+import re
 import os
 import sys
 import itertools
+from pprint import pprint
 from datetime import datetime
 import pyperclip
-import re
-from pprint import pprint
 
 class Subnotes:
     '''
@@ -29,7 +29,9 @@ class Subnotes:
     '''
         
     #CLASS VARIABLES
-    tag_regex = re.compile(r'\B@\S+')
+    TAG_REGEX = re.compile(r'\B@\S+')
+    LOWEST_CHAR = '~' * 10
+    # LOWEST_CHAR = chr(1114111) * 2
 
     def __init__(self, input_text, spacing=4):
         self.input_list = input_text.split('\n')
@@ -67,9 +69,9 @@ class Subnotes:
         
         for i, block in enumerate(self.block_list):
             # set default dictionary
-            # headers are encoded as 'zzzzzZZZZZ' if first and only line is preceded by 'x'
+            # headers are encoded as LOWEST_CHAR if first and only line is preceded by 'x'
             self.encoded_list.append({
-                'header': 'zzzzzZZZZZ',
+                'header': self.LOWEST_CHAR,
                 'data': [],
                 'tags': [],
                 'done': []
@@ -87,11 +89,15 @@ class Subnotes:
                     else: # line is 'data'
                         self.encoded_list[i]['data'].append(line)
     
-                    tagList = self.tag_regex.findall(line)
+                    tagList = self.TAG_REGEX.findall(line)
                     if tagList:
                         for tag in tagList:
                             self.encoded_list[i]['tags'].append(tag)
-    
+
+            if self.encoded_list[i]['header'] == self.LOWEST_CHAR and\
+                    len(self.encoded_list[i]['data']) > 0:
+                self.encoded_list[i]['header'] = '{Completed Project}'
+
         self.encoded_list = self.sort_blocks(self.encoded_list)
 
     def fix_spacing(self, f_text):
@@ -145,7 +151,7 @@ class Subnotes:
     """
     def printHeader(f_dataItem):
         '''f_dataItem is a single dict object from encoded todos'''
-        if f_dataItem['header'] != 'zzzzzZZZZZ':
+        if f_dataItem['header'] != self.LOWEST_CHAR:
             print(f_dataItem['header'])
     
     def printData(f_dataItem):
@@ -175,7 +181,7 @@ class Subnotes:
                 # for data in doneList:
                     # pass
                 # if type(data['done']) == list:
-                if todoData['header'] == 'zzzzzZZZZZ' or len(todoData['header']) < 1:
+                if todoData['header'] == self.LOWEST_CHAR or len(todoData['header']) < 1:
                     # print('header empty')#debug
                     for doneItem in todoData['done']:
                         print(doneItem.strip())
@@ -209,7 +215,7 @@ class Subnotes:
     def printAllSorted(encodedf_list):
         '''prints sorted'''
         for item in encodedf_list:
-            if item['header'] not in ['', 'zzzzzZZZZZ']:
+            if item['header'] not in ['', self.LOWEST_CHAR]:
                 printHeader(item)
                 if item['data'] == []:
                     print()
@@ -228,7 +234,7 @@ class Subnotes:
         for item in self.encoded_list:
             header_exists = True
     
-            if item['header'] not in ['', 'zzzzzZZZZZ']:
+            if item['header'] not in ['', self.LOWEST_CHAR]:
                 allSorted.append('\n' + item['header'].rstrip())
             else:
                 header_exists = False
@@ -251,7 +257,9 @@ class Subnotes:
         # append done items to list
         for data in doneList:
             # if type(data['done']) == list:
-            if data['header'] == 'zzzzzZZZZZ' or len(data['header']) < 1:
+            if data['header'] == self.LOWEST_CHAR or\
+                    data['header'] == '{Completed Project}' or\
+                    len(data['header']) < 1:
                 # print('header empty')#debug
                 for doneItem in data['done']:
                     allSorted.append(doneItem.strip())
