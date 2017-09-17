@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Subnotes</title>
+</head>
+<body>
+  <textarea id="mainTextArea" placeholder="Paste text here" cols="10" rows="5"></textarea>
+    <button id="mainButton">
+      Sort and Copy to Clipboard
+    </button>
+<hr>
+  content div below.
+  <a href="https://css-tricks.com/textarea-tricks/">read me</a>
+  <div contenteditable></div>
+
+<script src="chrome-extension://lkfkkhfhhdkiemehlpkgjeojomhpccnh/lib/screenlog.js"></script><script>
+console.log('hi')
+const textArea = document.getElementById('mainTextArea');
+const mainButton = document.getElementById('mainButton');
+console.log(textArea);
+console.log(mainButton);
+mainButton.addEventListener("click", function() {
+  let textContent = textArea.value;
+  let textArray = textContent.split('\n');
+  console.log(textArray);
+  textArea.value = 'GOT IT, THANKS!';
+  });
+
+//# sourceURL=userscript.js
+</script>
+</body>
+</html>
