@@ -1,34 +1,110 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Subnotes</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+  <script src="makeBlocks.js"></script>
+  <!-- <script src="makeBlocksTest.js"></script> -->
 </head>
+
 <body>
-  <textarea id="mainTextArea" placeholder="Paste text here" cols="10" rows="5"></textarea>
-    <button id="mainButton">
-      Sort and Copy to Clipboard
-    </button>
-<hr>
-  content div below.
-  <a href="https://css-tricks.com/textarea-tricks/">read me</a>
-  <div contenteditable></div>
+  <div class="container">
+    <div class="header clearfix"></div>
+    <div class="jumbotron-custom">
+      <h1>Subnotes</h1>
+      <p class="lead">Awesome way to organize your todo list</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 textarea-adjust">
+          <textarea id="mainTextArea" placeholder="Write or paste text here"></textarea>
+          <!-- cols="40" rows="15" -->
+        </div>
+        <div class="col-sm-3 btn-adjust">
+          <button class="btn btn-lg btn-success top-align" id="mainButton">
+        Sort and Copy to Clipboard
+      </button>
+          <br>
+          <button type="button" class="btn btn-lg btn-info  top-align" id="demoButton">Demo Text</button>
+        </div>
+      
+    </div>
+    <hr> content div below.
+    <a href="https://css-tricks.com/textarea-tricks/">read me</a>
+    <div contenteditable></div>
+  </div>
 
-<script src="chrome-extension://lkfkkhfhhdkiemehlpkgjeojomhpccnh/lib/screenlog.js"></script><script>
-console.log('hi')
-const textArea = document.getElementById('mainTextArea');
-const mainButton = document.getElementById('mainButton');
-console.log(textArea);
-console.log(mainButton);
-mainButton.addEventListener("click", function() {
-  let textContent = textArea.value;
-  let textArray = textContent.split('\n');
-  console.log(textArray);
-  textArea.value = 'GOT IT, THANKS!';
-  });
+  <script src="chrome-extension://lkfkkhfhhdkiemehlpkgjeojomhpccnh/lib/screenlog.js"></script>
+  <script>
+    console.log('hi')
+    const textArea = document.getElementById('mainTextArea');
+    const mainButton = document.getElementById('mainButton');
+    const demoButton = document.getElementById('demoButton');
+    console.log(textArea);
+    console.log(mainButton);
+    mainButton.addEventListener('click', asdf1);
+    demoButton.addEventListener('click', asdf3);
 
-//# sourceURL=userscript.js
-</script>
+    function asdf1() {
+      let textContent = textArea.value;
+      let sortedArray = block_encoder(textContent).sort(abcSort);
+      let sortedText = sortedOutput(sortedArray);
+      let newText = sortedText.join('\n\n');
+      console.log(newText);
+      textArea.value = newText;
+    }
+
+    function abcSort(a, b) {
+      if (a[0] < b[0]) return -1;
+      if (a[0] > b[0]) return 1;
+      return 0;
+    }
+
+    function sortedOutput(arr) {
+      return arr.map(block => block.join('\n'));
+    }
+
+    function asdf3() {
+      textArea.value = `a
+asdf
+
+s
+asdf
+
+d
+asdf
+
+
+f
+asdf
+asdf
+
+g
+asdf
+asdf
+asdf
+
+e
+
+w
+
+z
+
+r
+      `
+    }
+    // function asdf2() {
+    //   return new Promise(function(resolve, reject) {
+    //   )
+    // });
+    // p.then(() => {})}
+
+    //# sourceURL=userscript.js
+  </script>
 </body>
+
 </html>
