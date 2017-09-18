@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+  <script src="dist/clipboard.min.js"></script>
   <script src="makeBlocks.js"></script>
   <!-- <script src="makeBlocksTest.js"></script> -->
 </head>
@@ -20,42 +21,50 @@
       <p class="lead">Awesome way to organize your todo list</p>
     </div>
     <div class="row">
-        <div class="col-sm-6 textarea-adjust">
-          <textarea id="mainTextArea" placeholder="Write or paste text here"></textarea>
-          <!-- cols="40" rows="15" -->
-        </div>
-        <div class="col-sm-3 btn-adjust">
-          <button class="btn btn-lg btn-success top-align" id="mainButton">
+      <div class="col-sm-6 textarea-adjust">
+        <textarea id="mainTextArea" placeholder="Write or paste text here"></textarea>
+        <!-- cols="40" rows="15" -->
+      </div>
+      <div class="col-sm-4 btn-adjust">
+        <button class="btn btn-lg btn-success top-align" id="mainButton" data-clipboard-target="#mainTextArea">
         Sort and Copy to Clipboard
-      </button>
-          <br>
-          <button type="button" class="btn btn-lg btn-info  top-align" id="demoButton">Demo Text</button>
-        </div>
-      
+      </button><span id="notify" class="notify-hide">Copied!</span>
+        <br>
+        <button type="button" class="btn btn-lg btn-info  top-align" id="demoButton">Demo Text</button>
+      </div>
+
     </div>
     <hr> content div below.
     <a href="https://css-tricks.com/textarea-tricks/">read me</a>
     <div contenteditable></div>
   </div>
 
-  <script src="chrome-extension://lkfkkhfhhdkiemehlpkgjeojomhpccnh/lib/screenlog.js"></script>
+  <!-- <script src="chrome-extension://lkfkkhfhhdkiemehlpkgjeojomhpccnh/lib/screenlog.js"></script> -->
   <script>
-    console.log('hi')
+    new Clipboard('#mainButton');
+    console.log('Awaiting input...')
     const textArea = document.getElementById('mainTextArea');
     const mainButton = document.getElementById('mainButton');
     const demoButton = document.getElementById('demoButton');
-    console.log(textArea);
-    console.log(mainButton);
+    // console.log(textArea);
+    // console.log(mainButton);
     mainButton.addEventListener('click', asdf1);
     demoButton.addEventListener('click', asdf3);
 
     function asdf1() {
+      /*
+      Main function: gets text from textarea, sorts it, writes output to html
+      */
+      document.getElementById("notify").className = "notify-hide";
       let textContent = textArea.value;
+      // console.log(textContent);
+      if (!textContent) {return;}
       let sortedArray = block_encoder(textContent).sort(abcSort);
       let sortedText = sortedOutput(sortedArray);
       let newText = sortedText.join('\n\n');
-      console.log(newText);
+      // console.log(newText);
       textArea.value = newText;
+      asdf4(10);
     }
 
     function abcSort(a, b) {
@@ -68,7 +77,19 @@
       return arr.map(block => block.join('\n'));
     }
 
+    function asdf4(time) {
+      /*
+      delays the addition of notify-show class by param:time
+      */
+      window.setTimeout(function () {
+        document.getElementById("notify").className = "notify-show";
+      }, time);
+    }
+
     function asdf3() {
+      /*
+      assigns a test tring to textarea
+      */
       textArea.value = `a
 asdf
 

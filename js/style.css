@@ -32,3 +32,37 @@ textarea {
   /* override bootstrap */
   vertical-align: top;
 }
+
+.notify-hide {
+  display: none;
+}
+
+.notify-show {
+  vertical-align: middle;
+  margin-left: 10px;
+  position: relative;
+  top: 14px;
+  -webkit-animation: KEYFRAME-NAME 1.4s;
+  -moz-animation:    KEYFRAME-NAME 1.4s;
+  -o-animation:      KEYFRAME-NAME 1.4s;
+  animation:         KEYFRAME-NAME 1.4s;
+}
+
+@-webkit-keyframes KEYFRAME-NAME {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-moz-keyframes KEYFRAME-NAME {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-o-keyframes KEYFRAME-NAME {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes KEYFRAME-NAME {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+}
