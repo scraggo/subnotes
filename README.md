@@ -1,4 +1,6 @@
-# subnotes-python
+# subnotes
+
+**Preview the web-version:** [https://scraggo.github.io/subnotes](https://scraggo.github.io/subnotes/)
 
 Subnotes is a plaintext-based system for note taking and task-management. Taking inspiration from Taskpaper and the todo.txt system, you can keep your notes and subnotes in a simple format: a header line with lines (subnotes) right below. Subnotes can optionally be indented to add structure to your notes.
 
