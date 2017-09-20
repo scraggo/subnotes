@@ -1,0 +1,29 @@
+{
+  "name": "subnotes",
+  "version": "1.0.0",
+  "description": "**Preview the web-version:** [https://scraggo.github.io/subnotes](https://scraggo.github.io/subnotes/)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "babel src -d dist"
+  },
+  "scripts": {
+    "build": "babel --presets es2015 src -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scraggo/subnotes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scraggo/subnotes/issues"
+  },
+  "homepage": "https://github.com/scraggo/subnotes#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
