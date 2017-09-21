@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width">
   <title>Subnotes</title>
   <!-- <script src="src/main.js"></script> -->
+  <script src="src/testString.js"></script>
   <script src="src/makeBlocks.js"></script>
   <script src="subnotes_proto.js"></script>
   <!-- <script src="scripts/makeBlocksTest.js"></script> -->
@@ -15,37 +16,10 @@
 <script>
 let asdf = makeBlocks();
 console.log(asdf);
-let testString = `a
-asdf
 
-s
-asdf
-
-d
-asdf
-
-
-f
-asdf
-asdf
-
-g
-asdf
-asdf
-asdf
-
-e
-
-w
-
-z
-
-r
-      `
-console.log(typeof testString);
-let s = new Subnotes(testString);
+let s = new Subnotes(getTestString());
 s.block_encoder();
-console.log(s.encoded_list);
+console.dir(s.encoded_list);
 </script>
 </body>
 
