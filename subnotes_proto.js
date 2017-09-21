@@ -88,22 +88,28 @@ class Subnotes {
             this.encoded_list[i].data.push(line)
           }
         }
-
-        let tagList = line.match(this.TAG_REGEX);
-        console.log(tagList);
-        if (tagList) {
-          tagList.forEach((tag) =>
-            this.encoded_list[i].tags.push(tag)
-          )
-        }
+        this.assignTagList(line, i);
       }
-
-      if (this.encoded_list[i].header === this.LOWEST_CHAR && this.encoded_list[i].data.length > 0) {
-        this.encoded_list[i].header = '{Completed Project}'
-      }
+      this.assignCompletedProject(i);
     }
     // console.log(this.encoded_list);
     // this.encoded_list = this.sort_blocks(this.encoded_list)
+  }
+  
+  assignTagList(line, i) {
+    let tagList = line.match(this.TAG_REGEX);
+    // console.log(tagList);
+    if (tagList) {
+      tagList.forEach((tag) =>
+        this.encoded_list[i].tags.push(tag)
+      )
+    }
+  }
+
+  assignCompletedProject(i) {
+    if (this.encoded_list[i].header === this.LOWEST_CHAR && this.encoded_list[i].data.length > 0) {
+      this.encoded_list[i].header = '{Completed Project}'
+    }
   }
 }
 
