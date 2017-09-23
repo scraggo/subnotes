@@ -5,13 +5,19 @@ Converts multi-line text into a list of lists (blocks).
 all blank lines are removed.
 */
 
-function block_encoder(text) {
+function makeBlocks(text) {
   /*
   Args
       text string, multiple lines
   Returns
       list of lists (see module docstring)
   */
+  if (!text) {
+    return;
+  }
+  if (typeof text !== 'string') {
+    return;
+  }
   var text_array = text.split('\n');
   var block_array = [];
   var line;
