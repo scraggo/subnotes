@@ -16,7 +16,7 @@ function asdf1() {
   let textContent = textArea.value;
   // console.log(textContent);
   if (!textContent) {return;}
-  let sortedArray = block_encoder(textContent).sort(abcSort);
+  let sortedArray = makeBlocks(textContent).sort(abcSort);
   let sortedText = sortedOutput(sortedArray);
   let newText = sortedText.join('\n\n');
   // console.log(newText);
