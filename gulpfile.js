@@ -20,11 +20,56 @@ var sourcemaps  = require('gulp-sourcemaps');
 var livereload  = require('gulp-livereload');
 //
 var concat = require('gulp-concat');
+var pump = require('pump');
+
+// a lot for a little...
+
+// Copy js using concat
+gulp.task('jslib', function() {
+  return gulp.src('./app/js/lib/*.js')
+    .pipe(concat('lib.js'))
+    .pipe(gulp.dest('./app/js/_concat'));
+});
+
+// copy js
+gulp.task('jsmain', function() {
+  return gulp.src('./app/js/main.js')
+    .pipe(gulp.dest('./app/js/_concat'));
+});
+
+// To ES5 using babel
+gulp.task('babel', () =>
+gulp.src('app/js/_concat/*.js')
+    .pipe(babel({
+        presets: ['env']
+    }))
+    .pipe(gulp.dest('app/js/_babel'))
+);
+
+
+// uglify
+gulp.task('jsugly', function (cb) {
+  pump([
+        gulp.src('app/js/_babel/*.js'),
+        uglify(),
+        gulp.dest('dist/js')
+    ],
+    cb
+  );
+});
+
+// run all js tasks with runSequence
+gulp.task('js', function(callback) {
+  runSequence('jslib', 'jsmain', 'babel', 'jsugly', 'useref', callback
+  )
+})
+
+//
 
 gulp.task('scripts', function() {
   return gulp.src('./app/js/lib/*.js')
     .pipe(concat('lib.js'))
-    .pipe(gulp.dest('./app/js'));
+    .pipe(gulp.dest('./app/js/lib_concat'));
 });
 
 // gulp.task('build', function () {
@@ -46,15 +91,9 @@ gulp.task('scripts', function() {
 //    gulp.watch('./app/js/*.js', ['build']);
 // });
 
-// To ES5
 
-gulp.task('babel', () =>
-gulp.src('app/js/*.js')
-    .pipe(babel({
-        presets: ['env']
-    }))
-    .pipe(gulp.dest('app/js/main'))
-);
+
+
 
 // gulp.task('default', ['scripts', 'babel']);
 
@@ -119,7 +158,7 @@ gulp.task('watch', function() {
 gulp.task('useref', function() {
   return gulp.src('app/*.html')
     .pipe(useref())
-    .pipe(gulpIf('app/*.js', uglify()))
+    // .pipe(gulpIf('app/*.js', uglify()))
     .pipe(gulpIf('app/*.css', cssnano()))
     .pipe(gulp.dest('dist'));
 });
