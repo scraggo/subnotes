@@ -258,6 +258,7 @@ function makeBlocks(text) {
   var text_array = text.split('\n');
   var block_array = [];
   var line;
+  var block_index;
 
   for (var i = 0; i < text_array.length; i++) {
     line = text_array[i];

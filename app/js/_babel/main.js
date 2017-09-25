@@ -10,6 +10,12 @@ var demoButton = document.getElementById('demoButton');
 mainButton.addEventListener('click', asdf1);
 demoButton.addEventListener('click', asdf3);
 
+// let asdf = makeBlocks();
+// console.log(asdf);
+// let s = new Subnotes(getTestString());
+// s.block_encoder();
+// console.dir(s.encoded_list);
+
 function asdf1() {
   /*
   Main function: gets text from textarea, sorts it, writes output to html
@@ -20,9 +26,13 @@ function asdf1() {
   if (!textContent) {
     return;
   }
-  var sortedArray = makeBlocks(textContent).sort(abcSort);
-  var sortedText = sortedOutput(sortedArray);
-  var newText = sortedText.join('\n\n');
+  var s = new Subnotes(textContent);
+  s.block_encoder();
+  console.dir(s.encoded_list);
+  return;
+  // let sortedArray = makeBlocks(textContent).sort(abcSort);
+  // let sortedText = sortedOutput(sortedArray);
+  // let newText = sortedText.join('\n\n');
   // console.log(newText);
   textArea.value = newText;
   asdf4(10);

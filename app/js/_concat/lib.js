@@ -22,6 +22,7 @@ function makeBlocks(text) {
   const text_array = text.split('\n');
   const block_array = [];
   var line;
+  var block_index;
 
   for (let i = 0; i < text_array.length; i++) {
     line = text_array[i]
