@@ -27,24 +27,24 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('./app/js'));
 });
 
-gulp.task('build', function () {
-   // app.js is your main JS file with all your module inclusions
-   return browserify({entries: './app/js/app.js', debug: true})
-       .transform("babelify", { presets: ["es2015"] })
-       .bundle()
-       .pipe(source('app.js'))
-       .pipe(buffer())
-       .pipe(sourcemaps.init())
-       .pipe(uglify())
-       .pipe(sourcemaps.write('./maps'))
-       .pipe(gulp.dest('./dist/js'))
-       .pipe(livereload());
-});
+// gulp.task('build', function () {
+//    // app.js is your main JS file with all your module inclusions
+//    return browserify({entries: './app/js/app.js', debug: true})
+//        .transform("babelify", { presets: ["es2015"] })
+//        .bundle()
+//        .pipe(source('app.js'))
+//        .pipe(buffer())
+//        .pipe(sourcemaps.init())
+//        .pipe(uglify())
+//        .pipe(sourcemaps.write('./maps'))
+//        .pipe(gulp.dest('./dist/js'))
+//        .pipe(livereload());
+// });
 
-gulp.task('watch', ['build'], function () {
-   livereload.listen();
-   gulp.watch('./app/js/*.js', ['build']);
-});
+// gulp.task('watch', ['build'], function () {
+//    livereload.listen();
+//    gulp.watch('./app/js/*.js', ['build']);
+// });
 
 // To ES5
 
@@ -59,10 +59,20 @@ gulp.src('app/js/*.js')
 // gulp.task('default', ['scripts', 'babel']);
 
 gulp.task('default', function(callback) {
-  runSequence('scripts', 'babel', 'useref', callback
+  runSequence('build', 'browserSync', 'watch', callback
   )
 })
 
+gulp.task('build', function(callback) {
+  runSequence(
+    'clean:dist',
+    'sass',
+    'scripts',
+    'babel',
+    ['useref', 'images', 'fonts'],
+    callback
+  )
+})
 
 
 
@@ -75,13 +85,13 @@ gulp.task('hello', function() {
 // -----------------
 
 // Start browserSync server
-// gulp.task('browserSync', function() {
-//   browserSync({
-//     server: {
-//       baseDir: 'app'
-//     }
-//   })
-// })
+gulp.task('browserSync', function() {
+  browserSync({
+    server: {
+      baseDir: 'app'
+    }
+  })
+})
 
 gulp.task('sass', function() {
   return gulp.src('app/scss/**/*.scss') // Gets all files ending with .scss in app/scss and children dirs
@@ -96,11 +106,11 @@ gulp.task('sass', function() {
 
 
 // Watchers
-// gulp.task('watch', function() {
-//   gulp.watch('app/scss/**/*.scss', ['sass']);
-//   gulp.watch('app/*.html', browserSync.reload);
-//   gulp.watch('app/js/**/*.js', browserSync.reload);
-// })
+gulp.task('watch', function() {
+  gulp.watch('app/scss/**/*.scss', ['sass']);
+  gulp.watch('app/*.html', browserSync.reload);
+  gulp.watch('app/js/**/*.js', browserSync.reload);
+})
 
 // Optimization Tasks 
 // ------------------
