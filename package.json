@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "babel --presets es2015 src -d dist"
+    "build": "browserify app/js/main.js -o app/js/bundle.js"
   },
   "repository": {
     "type": "git",

@@ -1,3 +1,8 @@
+
+// var clipboard = require('./clipboard');
+var makeBlocks = require('./makeBlocks');
+var subnotesProto = require('./subnotes_proto');
+
 new Clipboard('#mainButton');
 console.log('Awaiting input...')
 const textArea = document.getElementById('mainTextArea');

@@ -5,14 +5,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Subnotes</title>
-  <!-- <script src="src/main.js"></script> -->
+  <style>
+    pre {
+      font-size: 18px;
+    }
+  </style>
   <script src="js/tests/testString.js"></script>
-  <script src="js/tests/makeBlocks.js"></script>
-  <script src="js/lib/subnotes_proto.js"></script>
+  <script src="js/makeBlocks.js"></script>
+  <script src="js/subnotes_proto.js"></script>
+  <!-- <script src="src/main.js"></script> -->
+  <!-- <script src="js/bundle.js"></script> -->
   <!-- <script src="scripts/makeBlocksTest.js"></script> -->
 </head>
 
 <body>
+
+  <h1>Tests</h1>
+  <pre>
+11/4/2017
+currently importing testString, makeBlocks, subnotes_proto.
+logging makeBlocks() to console -> undefined (makes sense?)
+logging encoded_list of test string -> array size 9 (as expected)
+
+  </pre>
 <script>
 let asdf = makeBlocks();
 console.log(asdf);
