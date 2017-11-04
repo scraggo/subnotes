@@ -1,3 +1,162 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+
+// var clipboard = require('./clipboard');
+var makeBlocks = require('./makeBlocks');
+var subnotesProto = require('./subnotes_proto');
+
+new Clipboard('#mainButton');
+console.log('Awaiting input...')
+const textArea = document.getElementById('mainTextArea');
+const mainButton = document.getElementById('mainButton');
+const demoButton = document.getElementById('demoButton');
+// console.log(textArea);
+// console.log(mainButton);
+mainButton.addEventListener('click', asdf1);
+demoButton.addEventListener('click', asdf3);
+
+
+// let asdf = makeBlocks();
+// console.log(asdf);
+// let s = new Subnotes(getTestString());
+// s.block_encoder();
+// console.dir(s.encoded_list);
+
+function asdf1() {
+  /*
+  Main function: gets text from textarea, sorts it, writes output to html
+  */
+  document.getElementById("notify").className = "notify-hide";
+  let textContent = textArea.value;
+  // console.log(textContent);
+  if (!textContent) {return;}
+  let s = new Subnotes(textContent);
+  s.block_encoder();
+  console.dir(s.encoded_list);
+  return;
+  // let sortedArray = makeBlocks(textContent).sort(abcSort);
+  // let sortedText = sortedOutput(sortedArray);
+  // let newText = sortedText.join('\n\n');
+  // console.log(newText);
+  textArea.value = newText;
+  asdf4(10);
+}
+
+function abcSort(a, b) {
+  if (a[0] < b[0]) return -1;
+  if (a[0] > b[0]) return 1;
+  return 0;
+}
+
+function sortedOutput(arr) {
+  return arr.map(block => block.join('\n'));
+}
+
+function asdf4(time) {
+  /*
+  delays the addition of notify-show class by param:time
+  */
+  window.setTimeout(function () {
+    document.getElementById("notify").className = "notify-show";
+  }, time);
+}
+
+function asdf3() {
+  /*
+  assigns a test tring to textarea
+  */
+  textArea.value = `a
+asdf
+
+s
+asdf
+
+d
+asdf
+
+
+f
+asdf
+asdf
+
+g
+asdf
+asdf
+asdf
+
+e
+
+w
+
+z
+
+r
+  `
+}
+// function asdf2() {
+//   return new Promise(function(resolve, reject) {
+//   )
+// });
+// p.then(() => {})}
+
+//# sourceURL=userscript.js
+},{"./makeBlocks":2,"./subnotes_proto":3}],2:[function(require,module,exports){
+/*
+Converts multi-line text into a list of lists (blocks).
+all blank lines are removed.
+*/
+
+function makeBlocks(text) {
+  /*
+  Args
+      text string, multiple lines
+  Returns
+      list of lists (see module docstring)
+  */
+  if (!text) {return;}
+  if (typeof text !== 'string') {return;}
+  const text_array = text.split('\n');
+  const block_array = [];
+  var line;
+  var block_index;
+
+  for (let i = 0; i < text_array.length; i++) {
+    line = text_array[i]
+    //initializing the block delineator for empty list
+    if (block_array.length <= 0) {
+      block_index = 0;
+    }
+
+    //if line is blank, it's a block delineator
+    if (line.trim().length <= 0) {
+      //this check is performed every time there's a blank line
+      //possible index error squashed by the change detector (later)
+      if (block_array.length > 0) {
+        block_index += 1;
+      }
+    } else {
+      //else, line has content and it's part of a 'block'
+      if (block_array.length <= 0) {
+        //append the very first 'block', a list with first line
+        block_array.push([line]);
+      } else {
+        //start/append new 'block' value OR add to last block
+        if (block_index > block_array.length - 1) {
+          // detect change and start a new block
+          block_array.push([line]);
+          // reset block_index
+          block_index = block_array.length - 1;
+          //continue
+        } else {
+          //else, add to last block
+          block_array[block_index].push(line);
+        }
+      }
+    }
+  }
+  return block_array;
+}
+
+},{}],3:[function(require,module,exports){
 /*Created on 7/25/17
 
 @author: scraggo (github.com/scraggo)
@@ -111,34 +270,11 @@ class Subnotes {
       this.encoded_list[i].header = '{Completed Project}'
     }
   }
-    // @staticmethod
-  sort_blocks(f_list) {
-    /*
-    Sorts f_list by key ['header']
-    */
-    function byHeader(a,b) {
-      a = a['header'].toLowerCase();
-      b = b['header'].toLowerCase();
-      if (a < b) {
-        return -1;
-      }
-      if (a > b) {
-        return 1;
-      }
-      return 0;
-    }
-    return f_list.sort(byHeader);
-  }
 }
 
-// todo
-// return_all_sorted(this)
-// this method does a lot. create done array, etc.
 
-// skipping
-// fix_spacing
-//   make_blocks(f_list) (another file)
-//   return_all_tags(this)
+
+
 
 
 //   fix_spacing(this, f_text)
@@ -182,6 +318,14 @@ class Subnotes {
 //     */
 
 //     return [list(g[1]) for g in itertools.groupby(f_list, key = lambda x: x.trim() != '') if g[0]]
+
+//   // @staticmethod
+//   sort_blocks(f_list)
+//     /*
+//     Sorts f_list by key ['header']
+//     */
+
+//     return sorted(f_list, key = lambda k: k['header'].lower())
 
 //   return_all_tags(this)
 //     /*
@@ -334,3 +478,4 @@ class Subnotes {
 
 
 //     main()
+},{}]},{},[1]);

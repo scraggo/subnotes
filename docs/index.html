@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Subnotes</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
+  <!--build:css css/styles.min.css-->
+  <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+  <!-- endbuild -->
+
+  <script src="js/clipboard.min.js"></script>
+  <!-- <script src="js/lib.js"></script> -->
+  <!--build:js js/lib.min.js -->
+  <!-- endbuild -->
+</head>
+
+<body>
+  <div class="container">
+    <div class="header clearfix"></div>
+    <div class="jumbotron-custom">
+      <h1>Subnotes</h1>
+      <p class="lead">Awesome way to organize your todo list</p>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 textarea-adjust">
+        <textarea id="mainTextArea" placeholder="Write or paste text here"></textarea>
+        <!-- cols="40" rows="15" -->
+      </div>
+      <div class="col-sm-4 btn-adjust">
+        <button class="btn btn-lg btn-success top-align" id="mainButton" data-clipboard-target="#mainTextArea">
+        Sort and Copy to Clipboard
+      </button><span id="notify" class="notify-hide">Copied!</span>
+        <br>
+        <button type="button" class="btn btn-lg btn-info  top-align" id="demoButton">Demo Text</button>
+      </div>
+
+    </div>
+    <hr>
+    By <a href="https://scraggo.github.io">scraggo.</a> See the <a href="https://github.com/scraggo/subnotes">repo on GitHub.</a>
+  </div>
+
+  <script src="js/bundle.js"></script>
+
+
+  <!--build:js js/main.min.js -->
+  <!-- endbuild -->
+  
+  <!-- <script src="lib/clipboard.min.js"></script> -->
+  <!-- <script src="js/makeBlocks.js"></script> -->
+  <!-- <script src="js/makeBlocksTest.js"></script> -->  
+</body>
+
+</html>
