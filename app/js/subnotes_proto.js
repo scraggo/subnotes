@@ -111,6 +111,24 @@ class Subnotes {
       this.encoded_list[i].header = '{Completed Project}'
     }
   }
+    // @staticmethod
+  sort_blocks(f_list) {
+    /*
+    Sorts f_list by key ['header']
+    */
+    function byHeader(a,b) {
+      a = a['header'].toLowerCase();
+      b = b['header'].toLowerCase();
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      return 0;
+    }
+    return f_list.sort(byHeader);
+  }
 }
 
 
@@ -159,14 +177,6 @@ class Subnotes {
 //     */
 
 //     return [list(g[1]) for g in itertools.groupby(f_list, key = lambda x: x.trim() != '') if g[0]]
-
-//   // @staticmethod
-//   sort_blocks(f_list)
-//     /*
-//     Sorts f_list by key ['header']
-//     */
-
-//     return sorted(f_list, key = lambda k: k['header'].lower())
 
 //   return_all_tags(this)
 //     /*

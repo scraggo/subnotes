@@ -25,8 +25,28 @@
 11/4/2017
 currently importing testString, makeBlocks, subnotes_proto.
 logging makeBlocks() to console -> undefined (makes sense?)
-logging encoded_list of test string -> array size 9 (as expected)
 
+logging encoded_list of test string -> array size 9 (as expected)
+{header: "z title should be low", data: Array(1), tags: Array(0), done: Array(0)}
+{header: "+Project1 @tag", data: Array(3), tags: Array(2), done: Array(3)}
+{header: "Not a project, so it's a note", data: Array(1), tags: Array(1), done: Array(1)}
+{header: "~~~~~~~~~~", data: Array(0), tags: Array(1), done: Array(1)}
+{header: "{Completed Project}", data: Array(2), tags: Array(0), done: Array(1)}
+{header: "~~~~~~~~~~", data: Array(0), tags: Array(1), done: Array(1)}
+{header: "note, no subnotes 1 lots of tags @! @tag @othertag @crazy", data: Array(0), tags: Array(1), done: Array(0)}
+{header: "note, no subnotes 2", data: Array(0), tags: Array(0), done: Array(0)}
+{header: "Note with tag @!", data: Array(1), tags: Array(2), done: Array(1)}
+
+logging sort_blocks of encList:
+{header: "+Project1 @tag", data: Array(3), tags: Array(2), done: Array(3)}
+{header: "Not a project, so it's a note", data: Array(1), tags: Array(1), done: Array(1)}
+{header: "Note with tag @!", data: Array(1), tags: Array(2), done: Array(1)}
+{header: "note, no subnotes 1 lots of tags @! @tag @othertag @crazy", data: Array(0), tags: Array(1), done: Array(0)}
+{header: "note, no subnotes 2", data: Array(0), tags: Array(0), done: Array(0)}
+{header: "z title should be low", data: Array(1), tags: Array(0), done: Array(0)}
+{header: "{Completed Project}", data: Array(2), tags: Array(0), done: Array(1)}
+{header: "~~~~~~~~~~", data: Array(0), tags: Array(1), done: Array(1)}
+{header: "~~~~~~~~~~", data: Array(0), tags: Array(1), done: Array(1)}
   </pre>
 <script>
 let asdf = makeBlocks();
@@ -34,7 +54,9 @@ console.log(asdf);
 
 let s = new Subnotes(getTestString());
 s.block_encoder();
-console.dir(s.encoded_list);
+let encList = s.encoded_list;
+console.log(encList);
+console.log(s.sort_blocks(encList));
 </script>
 </body>
 
