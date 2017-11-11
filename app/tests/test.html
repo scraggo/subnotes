@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Subnotes</title>
+  <style>
+    pre {
+      font-size: 18px;
+      white-space: pre-wrap;       /* Since CSS 2.1 */
+      white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+      white-space: -pre-wrap;      /* Opera 4-6 */
+      white-space: -o-pre-wrap;    /* Opera 7 */
+      word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    }
+  </style>
+  <script src="./testString.js"></script>
+  <script src="../js/makeBlocks.js"></script>
+  <script src="../js/subnotes_proto.js"></script>
+  <!-- <script src="src/main.js"></script> -->
+  <!-- <script src="js/bundle.js"></script> -->
+  <!-- <script src="scripts/makeBlocksTest.js"></script> -->
+</head>
+
+<body>
+
+  <h1>Tests</h1>
+  <pre>
+11/11/2017
+
+left off here: need to change "data" to something else (dammit)
+// append done items to list
+for (data in doneList) {
+  run:
+  node /Users/davecohen/Documents/DEC/Programming/-Github/subnotes/app/tests/returnAllSortedTest.js
+
+To pretty print to console:
+Use JSON.parse(JSON.stringify(obj)) or JSON.stringify(obj) or JSON.stringify(obj, null, 4)
+[X] move all tests to a folder (to easily delete from /docs)
+
+11/4/2017
+see returnAllSortedTest.js - big long mess. compare to original python (spacing is messed up)
+
+currently importing testString, makeBlocks, subnotes_proto.
+logging makeBlocks() to console -> undefined (makes sense?)
+
+logging encoded_list of test string -> array size 9 (as expected)
+[{"header":"z title should be low","data":["subnote below z title"],"tags":[],"done":[]},{"header":"+Project1 @tag","data":["    task1 for project @!!!","    task2 for project","    task3 for project"],"tags":["@tag","@!!!"],"done":["    x done item in project","    x another done item in project","    x 3rd done item in project"]},{"header":"Not a project, so it's a note","data":["    subnote with priority tag @!"],"tags":["@!"],"done":["    x done item for note"]},{"header":"~~~~~~~~~~","data":[],"tags":["@innertag"],"done":["x Top level done item @innertag embedded tag"]},{"header":"{Completed Project}","data":["subnote1 for done header","subnote2 for done header"],"tags":[],"done":["x Top level done item with subnote"]},{"header":"~~~~~~~~~~","data":[],"tags":["@!"],"done":["x Top level done item with tag @!"]},{"header":"note, no subnotes 1 lots of tags @! @tag @othertag @crazy","data":[],"tags":["@!"],"done":[]},{"header":"note, no subnotes 2","data":[],"tags":[],"done":[]},{"header":"Note with tag @!","data":["    not done item for a note @tag"],"tags":["@!","@tag"],"done":["    x done item for note"]}]
+
+logging sort_blocks of encList:
+[{"header":"+Project1 @tag","data":["    task1 for project @!!!","    task2 for project","    task3 for project"],"tags":["@tag","@!!!"],"done":["    x done item in project","    x another done item in project","    x 3rd done item in project"]},{"header":"Not a project, so it's a note","data":["    subnote with priority tag @!"],"tags":["@!"],"done":["    x done item for note"]},{"header":"Note with tag @!","data":["    not done item for a note @tag"],"tags":["@!","@tag"],"done":["    x done item for note"]},{"header":"note, no subnotes 1 lots of tags @! @tag @othertag @crazy","data":[],"tags":["@!"],"done":[]},{"header":"note, no subnotes 2","data":[],"tags":[],"done":[]},{"header":"z title should be low","data":["subnote below z title"],"tags":[],"done":[]},{"header":"{Completed Project}","data":["subnote1 for done header","subnote2 for done header"],"tags":[],"done":["x Top level done item with subnote"]},{"header":"~~~~~~~~~~","data":[],"tags":["@innertag"],"done":["x Top level done item @innertag embedded tag"]},{"header":"~~~~~~~~~~","data":[],"tags":["@!"],"done":["x Top level done item with tag @!"]}]
+  </pre>
+<script>
+
+function logObj(obj, pretty = 0) {
+  // obj is logged as is and as a string. set pretty to 4 for separate lines
+  let json;
+  json = JSON.stringify(obj, null, pretty);
+  console.log(obj);
+  console.log(json);
+}
+
+let asdf = makeBlocks();
+console.log(asdf);
+
+let s = new Subnotes(getTestString());
+s.block_encoder();
+let encList = s.encoded_list;
+
+logObj(encList);
+logObj(s.sort_blocks(encList));
+</script>
+</body>
+
+</html>
