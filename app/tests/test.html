@@ -16,6 +16,7 @@
     }
   </style>
   <script src="./testString.js"></script>
+  <script src="./returnAllSortedTest.js"></script>
   <script src="../js/makeBlocks.js"></script>
   <script src="../js/subnotes_proto.js"></script>
   <!-- <script src="src/main.js"></script> -->
@@ -28,14 +29,13 @@
   <h1>Tests</h1>
   <pre>
 11/11/2017
-
 left off here: need to change "data" to something else (dammit)
 // append done items to list
 for (data in doneList) {
   run:
   node /Users/davecohen/Documents/DEC/Programming/-Github/subnotes/app/tests/returnAllSortedTest.js
 
-To pretty print to console:
+To print object to console for view / copying for tests:
 Use JSON.parse(JSON.stringify(obj)) or JSON.stringify(obj) or JSON.stringify(obj, null, 4)
 [X] move all tests to a folder (to easily delete from /docs)
 
@@ -70,6 +70,9 @@ let encList = s.encoded_list;
 
 logObj(encList);
 logObj(s.sort_blocks(encList));
+
+console.log(return_all_sorted(encList));
+
 </script>
 </body>
 
