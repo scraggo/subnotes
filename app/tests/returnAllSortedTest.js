@@ -10,20 +10,20 @@
 
 // run_tests();
 
-function return_all_sorted(data) {
+function return_all_sorted(f_data) {
     /*returns all items sorted as a string for printing or clipboard.*/
 
   let allSorted = [];
   let doneList = [];
-  let header_exists, item, data_item, i, j;
+  let header_exists, item, data_item, data, i, j;
   let nowDate = new Date();
   nowDate = nowDate.toString();
 
-  for (i = 0; i < data.length; i++) {
-    item = data[i];
+  for (i = 0; i < f_data.length; i++) {
+    item = f_data[i];
     header_exists = true;
 
-    if (item['header'] !== '' || item['header'] !== this.LOWEST_CHAR) {
+    if (item['header'] !== '' && item['header'] !== this.LOWEST_CHAR) {
       allSorted.push('\n' + item['header'].trimRight());
     } else {
       header_exists = false;
@@ -33,13 +33,13 @@ function return_all_sorted(data) {
       if (header_exists === false) {//
         allSorted.push('');
       }
-      for (j = 0; j < item['data'.length; j++]) {
+      for (j = 0; j < item['data'].length; j++) {
         data_item = item['data'][j];
         allSorted.push(data_item.trimRight());
       }
     }
 
-    if ((item['done'].length) > 0) {
+    if (item['done'].length > 0) {
       //append to separate list
       doneList.push(item);
     }
@@ -50,25 +50,29 @@ function return_all_sorted(data) {
     allSorted.push('\n' + nowDate);
 
   // append done items to list
-  for (data in doneList) {
+  for (i = 0; i < doneList.length; i++) {
+    data = doneList[i];
     // if type(data['done']) == list
     if (
       data['header'] === this.LOWEST_CHAR ||
-      data['header'] == '{Completed Project}' ||
-      len(data['header']) < 1
+      data['header'] === '{Completed Project}' ||
+      data['header'].length < 1
     ) {
       // print('header empty')//debug
-      for (doneItem in data['done']) {
+      for (j = 0; j < data['done']; j++) {
+        doneItem = data['done'][j];
         allSorted.push(doneItem.trim());
       }
     } else {
-      allSorted.push(data['header'])
-      for (doneItem in data['done']) {
+      allSorted.push(data['header']);
+      for (j = 0; j < data['done'].length; j++) {
+        doneItem = data['done'][j];
         // print('header not empty')//debug
         allSorted.push(' ' * this._spacing + doneItem.trim());
       }
     }
   }
+  // console.log(allSorted);//debug
   return allSorted.join('\n');
 }
 
