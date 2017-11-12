@@ -28,19 +28,26 @@
 
   <h1>Tests</h1>
   <pre>
+11/12/2017
+
+return all tags:
+
+["@!","@!!!","@innertag","@tag"] -> incorrect output.
+    TAGS ARE NOT BEING ENCODED CORRECTLY
+
 11/11/2017
-left off here: need to change "data" to something else (dammit)
-// append done items to list
-for (data in doneList) {
-  run:
-  node /Users/davecohen/Documents/DEC/Programming/-Github/subnotes/app/tests/returnAllSortedTest.js
+[X] left off here: need to change "data" to something else (dammit)
+  // append done items to list
+  for (data in doneList) {
+run:
+node /Users/davecohen/Documents/DEC/Programming/-Github/subnotes/app/tests/returnAllSortedTest.js
 
 To print object to console for view / copying for tests:
 Use JSON.parse(JSON.stringify(obj)) or JSON.stringify(obj) or JSON.stringify(obj, null, 4)
 [X] move all tests to a folder (to easily delete from /docs)
 
 11/4/2017
-see returnAllSortedTest.js - big long mess. compare to original python (spacing is messed up)
+[X] see returnAllSortedTest.js - big long mess. compare to original python (spacing is messed up)
 
 currently importing testString, makeBlocks, subnotes_proto.
 logging makeBlocks() to console -> undefined (makes sense?)
@@ -101,7 +108,7 @@ function logObj(obj, pretty = 0) {
   // obj is logged as is and as a string. set pretty to 4 for separate lines
   let json;
   json = JSON.stringify(obj, null, pretty);
-  console.log(obj);
+  console.dir(obj);
   console.log(json);
 }
 
@@ -116,6 +123,9 @@ logObj(encList);
 logObj(s.sort_blocks(encList));
 
 console.log(return_all_sorted(encList));
+
+console.log(s.return_all_tags());
+
 
 </script>
 </body>
