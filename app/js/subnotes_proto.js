@@ -28,7 +28,7 @@ class Subnotes {
     this.spacer = ' '.repeat(this._spacing);
     // this.block_encoder()
     //CLASS VARIABLES
-    this.TAG_REGEX = /\B@\S+/;
+    this.TAG_REGEX = /\B@\S+/g;
     this.LOWEST_CHAR = '~'.repeat(10);
     // LOWEST_CHAR = chr(1114111) * 2
   }
@@ -82,7 +82,6 @@ class Subnotes {
         if (line.trim().startsWith('x ')) {
           this.encoded_list[i].done.push(line)
         } else {
-
           if (line === block[0]) {
             // line is the 'header'
             this.encoded_list[i].header = line.trim()
@@ -217,7 +216,12 @@ class Subnotes {
 // module.exports = new Subnotes;
 
 // todo
+// tag_filter
+//         Prints projects that contain f_tag input by user.
+//         Done items with tags are not included.
+
 // done! return_all_sorted(this)
+// done! return_all_tags
 
 // skipping
 // fix_spacing
