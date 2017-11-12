@@ -17,6 +17,7 @@
   </style>
   <script src="./testString.js"></script>
   <script src="./returnAllSortedTest.js"></script>
+  <script src="./filterTagsTest.js"></script>
   <script src="../js/makeBlocks.js"></script>
   <script src="../js/subnotes_proto.js"></script>
   <!-- <script src="src/main.js"></script> -->
@@ -29,6 +30,14 @@
   <h1>Tests</h1>
   <pre>
 11/12/2017
+
+left off on filterTagsTest.js 
+    I want to redo how tags are initially encoded. Maybe as an object,
+    {header: [tags], data: [tags], done: [tags]}
+    but I'm not sure yet.
+
+console.log(tag_filter(encList, '!'));
+    -> correctly filters projects, but includes done tags as well. How to display?
 
 return all tags:
 FIXED! ["@!", "@!!!", "@crazy", "@innertag", "@othertag", "@tag"]
@@ -125,6 +134,7 @@ console.log(return_all_sorted(encList));
 
 console.log(s.return_all_tags());
 
+console.log(tag_filter(encList, '!'));
 
 </script>
 </body>
