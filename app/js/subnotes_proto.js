@@ -25,6 +25,7 @@ class Subnotes {
     this._spacing = 4;//for now
     // this._spacing = spacing
     // this.set_spacing(this._spacing)
+    this.spacer = ' '.repeat(this._spacing);
     // this.block_encoder()
     //CLASS VARIABLES
     this.TAG_REGEX = /\B@\S+/;
@@ -32,19 +33,20 @@ class Subnotes {
     // LOWEST_CHAR = chr(1114111) * 2
   }
 
-  
-  /*
-      set_spacing(this, new_spacing=4):
-          const valid_spacing = [2,4,5];
-          str_valid = ', '.join(str(x) for x in valid_spacing)
-          if new_spacing in valid_spacing:
-              this._spacing = new_spacing
-          else:
-              // raise ValueError('Spacing must be {} spaces.'.format(''.join(str_valid)))
-              print('ERROR: Spacing must be {} spaces.\nQuitting.'.format(''.join(str_valid)))
-              sys.exit()
-          return this._spacing
-  */
+  set_spacing(new_spacing=4) {
+    // sets this._spacing and returns the number
+    const valid_spacing = [2,4,5];
+    let valid_index = valid_spacing.indexOf(new_spacing - 0);//ensure number
+    if (valid_index > -1) {
+      this._spacing = new_spacing;
+      return this._spacing;
+    } else {
+      // set default to 4
+      this._spacing = 4;
+      return this._spacing;
+    }
+  }
+
   block_encoder() {
     /*
     Main function that appends dict objects to this.encoded_list as such:
@@ -189,20 +191,33 @@ class Subnotes {
         for (j = 0; j < data['done'].length; j++) {
           doneItem = data['done'][j];
           // print('header not empty')//debug
-          allSorted.push(' '.repeat(this._spacing) + doneItem.trim());
+          allSorted.push(this.spacer + doneItem.trim());
         }
       }
     }
     // console.log(allSorted);//debug
     return allSorted.join('\n');
   }
+
+  return_all_tags() {
+    /*
+    returns all the tags as an array, sorted in abc order with no duplicates
+    */
+
+    let tagslist = this.encoded_list
+      .map( item => item['tags'] )//array of tags
+      .filter( item => item.length > 0 )//remove empty arrays
+      .reduce( (a,b) => a.concat(b) );//flatten array
+    let tagsSet = new Set(tagslist);//unique values only
+
+    return Array.from(tagsSet).sort();
+  }
 }
 
 // module.exports = new Subnotes;
 
 // todo
-// return_all_sorted(this)
-// this method does a lot. create done array, etc.
+// done! return_all_sorted(this)
 
 // skipping
 // fix_spacing
@@ -252,20 +267,7 @@ class Subnotes {
 
 //     return [list(g[1]) for g in itertools.groupby(f_list, key = lambda x: x.trim() != '') if g[0]]
 
-//   return_all_tags(this)
-//     /*
-//     returns all the tags as a list, sorted in abc order with no duplicates
-//     */
 
-//     unsortedtags = []
-//   for item in this.encoded_list
-//     tagslist = item['tags']
-//   if tagslist != []
-//     for tag in tagslist
-//     if tag not in unsortedtags
-//     unsortedtags.push(tag)
-
-//   return sorted(unsortedtags)
 
 //   return_all_sorted(this)
 //     /*returns all items sorted as a string for printing or clipboard.*/
@@ -315,7 +317,7 @@ class Subnotes {
 //   return '\n'.join(allSorted)
 
 
-//   tag_filter(this)
+//   tag_filter() {
 //     /*
 //         Prints projects that contain f_tag input by user.
 //         Done items with tags are not included.
@@ -326,7 +328,7 @@ class Subnotes {
 //             None (only prints)
 //         */
 
-//     all_tags = this.return_all_tags()
+//     all_tags = this.return_all_tags();
 //   if len(all_tags) < 1
 //     print('No tags found.\n')
 //   else 
@@ -355,9 +357,10 @@ class Subnotes {
 //   print()
 //   else 
 //     print('No notes with {} tag found.\n'.format(f_tag))
-
+//   }
 
 // }
+
 
 // // === end Subnotes class===
 // // === start global functions ===
