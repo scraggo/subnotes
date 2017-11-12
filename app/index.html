@@ -33,12 +33,10 @@
         <!-- cols="40" rows="15" -->
       </div>
       <div class="col-sm-4 btn-adjust">
-          <form class="form-inline">
-              <div class="form-group">
-                <input type="text" class="form-control" id="viewTags" placeholder="Tag(s) to view">
-                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">View Tags</button>
-              </div>
-        <br>
+        <div class="form-inline">
+          <input type="text" class="form-control" id="viewTags" placeholder="Tag(s) to view">
+          <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">View Tags</button>
+        </div>
         <button class="btn btn-lg btn-success top-align" id="mainButton" data-clipboard-target="#mainTextArea">
         Sort and Copy to Clipboard</button>
         <span id="notify" class="notify-hide">Copied!</span>
