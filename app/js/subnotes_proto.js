@@ -26,6 +26,7 @@ class Subnotes {
     // this._spacing = spacing
     // this.set_spacing(this._spacing)
     this.spacer = ' '.repeat(this._spacing);
+    this.allTags = new Set([]);
     // this.block_encoder()
     //CLASS VARIABLES
     this.TAG_REGEX = /\B@\S+/g;
@@ -101,10 +102,13 @@ class Subnotes {
   assignTagList(line, i) {
     let tagList = line.match(this.TAG_REGEX);
     // console.log(tagList);
+    let j, tag;
     if (tagList) {
-      tagList.forEach((tag) =>
-        this.encoded_list[i].tags.push(tag)
-      )
+      for (j = 0; j < tagList.length; j++) {
+        tag = tagList[j];
+        this.encoded_list[i].tags.push(tag);
+        this.allTags.add(tag);
+      }
     }
   }
 
@@ -203,13 +207,14 @@ class Subnotes {
     returns all the tags as an array, sorted in abc order with no duplicates
     */
 
-    let tagslist = this.encoded_list
-      .map( item => item['tags'] )//array of tags
-      .filter( item => item.length > 0 )//remove empty arrays
-      .reduce( (a,b) => a.concat(b) );//flatten array
-    let tagsSet = new Set(tagslist);//unique values only
+    // let tagslist = this.encoded_list
+    //   .map( item => item['tags'] )//array of tags
+    //   .filter( item => item.length > 0 )//remove empty arrays
+    //   .reduce( (a,b) => a.concat(b) );//flatten array
+    // let tagsSet = new Set(tagslist);//unique values only
 
-    return Array.from(tagsSet).sort();
+    // return Array.from(tagsSet).sort();
+    return Array.from(this.allTags).sort();
   }
 }
 

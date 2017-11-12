@@ -126,8 +126,11 @@ console.log(asdf);
 let s = new Subnotes(getTestString());
 s.block_encoder();
 let encList = s.encoded_list;
-
 logObj(encList);
+
+let allTags = s.allTags;
+console.log('allTags:', allTags);
+
 logObj(s.sort_blocks(encList));
 
 console.log(return_all_sorted(encList));
