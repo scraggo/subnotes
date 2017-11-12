@@ -136,7 +136,7 @@ class Subnotes {
 
     let allSorted = [];
     let doneList = [];
-    let header_exists, item, data_item, data, i, j;
+    let header_exists, item, data_item, data, doneItem, i, j;
     let nowDate = new Date();
     nowDate = nowDate.toString();
 
@@ -189,7 +189,7 @@ class Subnotes {
         for (j = 0; j < data['done'].length; j++) {
           doneItem = data['done'][j];
           // print('header not empty')//debug
-          allSorted.push(' ' * this._spacing + doneItem.trim());
+          allSorted.push(' '.repeat(this._spacing) + doneItem.trim());
         }
       }
     }
