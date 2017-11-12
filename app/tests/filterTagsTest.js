@@ -1,4 +1,4 @@
-function tag_filter() {
+function tag_filter(encList, f_tag) {
     /*
         Prints projects that contain f_tag input by user.
         Done items with tags are not included.
@@ -13,22 +13,28 @@ function tag_filter() {
   let all_tags = ["@!", "@!!!", "@crazy", "@innertag", "@othertag", "@tag"];
 
   //get user input
-  let f_tag = GETELEMENT!
+  // let f_tag = GETELEMENT!
+  //ADD @ IF @ ISN'T FIRST
+  if (!f_tag.startsWith('@')) {
+    f_tag = '@' + f_tag;
+  }
   // let f_tag = input('Tag to search (include @): ')
 
   //filter by f_tag
   let filtered_tags = [];
-  this.encoded_list
-    .map( item => item.tags )
-    .filter( item =>  )
-  for encoded_item in this.encoded_list
-    for k, v in encoded_item.items()
-    if k == 'tags'
-    for str_tag in v
-    if str_tag.find(f_tag) > -1
-    filtered_tags.push(encoded_item['header'])
-  break
+  return encList.filter( item => item.tags.indexOf(f_tag) > -1 );
+  // return this.encoded_list.filter( item => item.tags.indexOf(f_tag) > -1 );
+}
 
+function displayFilteredTags() {
+  // this.LOWEST_CHAR
+  // OR block:
+  // if data = empty, header = lowest char, header = empty
+  // append to 'done' at end for display
+  // else
+  // display header AND data that contains tag.
+}
+/*
   if len(filtered_tags) > 0
     print()
   print('*' * (20 + len(f_tag)))
@@ -53,3 +59,5 @@ function view_all_tags(all_tags) {
       return 'Your Tags: ' + all_tags.join(', ');
   }
 }
+
+*/
