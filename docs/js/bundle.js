@@ -3,6 +3,8 @@
 // var clipboard = require('./clipboard');
 var makeBlocks = require('./makeBlocks');
 var subnotesProto = require('./subnotes_proto');
+console.log(subnotesProto);//debug
+console.log(makeBlocks);//debug
 
 new Clipboard('#mainButton');
 console.log('Awaiting input...')
@@ -30,6 +32,7 @@ function asdf1() {
   // console.log(textContent);
   if (!textContent) {return;}
   let s = new Subnotes(textContent);
+  // let s = new subnotesProto.Subnotes(textContent);
   s.block_encoder();
   console.dir(s.encoded_list);
   return;
@@ -156,6 +159,7 @@ function makeBlocks(text) {
   return block_array;
 }
 
+module.exports = makeBlocks;
 },{}],3:[function(require,module,exports){
 /*Created on 7/25/17
 
@@ -270,11 +274,102 @@ class Subnotes {
       this.encoded_list[i].header = '{Completed Project}'
     }
   }
+    // @staticmethod
+  sort_blocks(f_list) {
+    /*
+    Sorts f_list by key ['header']
+    */
+    function byHeader(a,b) {
+      a = a['header'].toLowerCase();
+      b = b['header'].toLowerCase();
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      return 0;
+    }
+    return f_list.sort(byHeader);
+  }
+
+  return_all_sorted() {
+      /*returns all items sorted as a string for printing or clipboard.*/
+
+    let allSorted = [];
+    let doneList = [];
+    let header_exists, item, data_item, data, i, j;
+    let nowDate = new Date();
+    nowDate = nowDate.toString();
+
+    for (i = 0; i < this.encoded_list.length; i++) {
+      item = this.encoded_list[i];
+      header_exists = true;
+
+      if (item['header'] !== '' && item['header'] !== this.LOWEST_CHAR) {
+        allSorted.push('\n' + item['header'].trimRight());
+      } else {
+        header_exists = false;
+      }
+
+      if (item['data'].length > 0) {//
+        if (header_exists === false) {//
+          allSorted.push('');
+        }
+        for (j = 0; j < item['data'].length; j++) {
+          data_item = item['data'][j];
+          allSorted.push(data_item.trimRight());
+        }
+      }
+
+      if ((item['done'].length) > 0) {
+        //append to separate list
+        doneList.push(item);
+      }
+    }
+      //put done items at end of list with timestamp
+
+      //prints the current date and time
+      allSorted.push('\n' + nowDate);
+
+    // append done items to list
+    for (i = 0; i < doneList.length; i++) {
+      data = doneList[i];
+      // if type(data['done']) == list
+      if (
+        data['header'] === this.LOWEST_CHAR ||
+        data['header'] === '{Completed Project}' ||
+        data['header'].length < 1
+      ) {
+        // print('header empty')//debug
+        for (j = 0; j < data['done']; j++) {
+          doneItem = data['done'][j];
+          allSorted.push(doneItem.trim());
+        }
+      } else {
+        allSorted.push(data['header'])
+        for (j = 0; j < data['done']; j++) {
+          doneItem = data['done'][j];
+          // print('header not empty')//debug
+          allSorted.push(' ' * this._spacing + doneItem.trim());
+        }
+      }
+    }
+    // console.log(allSorted);//debug
+    return allSorted.join('\n');
+  }
 }
 
+module.exports = new Subnotes;
 
+// todo
+// return_all_sorted(this)
+// this method does a lot. create done array, etc.
 
-
+// skipping
+// fix_spacing
+//   make_blocks(f_list) (another file)
+//   return_all_tags(this)
 
 
 //   fix_spacing(this, f_text)
@@ -318,14 +413,6 @@ class Subnotes {
 //     */
 
 //     return [list(g[1]) for g in itertools.groupby(f_list, key = lambda x: x.trim() != '') if g[0]]
-
-//   // @staticmethod
-//   sort_blocks(f_list)
-//     /*
-//     Sorts f_list by key ['header']
-//     */
-
-//     return sorted(f_list, key = lambda k: k['header'].lower())
 
 //   return_all_tags(this)
 //     /*

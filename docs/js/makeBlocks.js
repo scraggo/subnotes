@@ -53,3 +53,5 @@ function makeBlocks(text) {
   }
   return block_array;
 }
+
+// module.exports = makeBlocks;

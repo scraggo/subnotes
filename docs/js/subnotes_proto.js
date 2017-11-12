@@ -22,6 +22,7 @@ class Subnotes {
     this.input_text = input_text
     this.block_list = makeBlocks(this.input_text);
     this.encoded_list = [];
+    this._spacing = 4;//for now
     // this._spacing = spacing
     // this.set_spacing(this._spacing)
     // this.block_encoder()
@@ -129,7 +130,75 @@ class Subnotes {
     }
     return f_list.sort(byHeader);
   }
+
+  return_all_sorted() {
+      /*returns all items sorted as a string for printing or clipboard.*/
+
+    let allSorted = [];
+    let doneList = [];
+    let header_exists, item, data_item, data, doneItem, i, j;
+    let nowDate = new Date();
+    nowDate = nowDate.toString();
+
+    for (i = 0; i < this.encoded_list.length; i++) {
+      item = this.encoded_list[i];
+      header_exists = true;
+
+      if (item['header'] !== '' && item['header'] !== this.LOWEST_CHAR) {
+        allSorted.push('\n' + item['header'].trimRight());
+      } else {
+        header_exists = false;
+      }
+
+      if (item['data'].length > 0) {//
+        if (header_exists === false) {//
+          allSorted.push('');
+        }
+        for (j = 0; j < item['data'].length; j++) {
+          data_item = item['data'][j];
+          allSorted.push(data_item.trimRight());
+        }
+      }
+
+      if ((item['done'].length) > 0) {
+        //append to separate list
+        doneList.push(item);
+      }
+    }
+      //put done items at end of list with timestamp
+
+      //prints the current date and time
+      allSorted.push('\n' + nowDate);
+
+    // append done items to list
+    for (i = 0; i < doneList.length; i++) {
+      data = doneList[i];
+      // if type(data['done']) == list
+      if (
+        data['header'] === this.LOWEST_CHAR ||
+        data['header'] === '{Completed Project}' ||
+        data['header'].length < 1
+      ) {
+        // print('header empty')//debug
+        for (j = 0; j < data['done'].length; j++) {
+          doneItem = data['done'][j];
+          allSorted.push(doneItem.trim());
+        }
+      } else {
+        allSorted.push(data['header']);
+        for (j = 0; j < data['done'].length; j++) {
+          doneItem = data['done'][j];
+          // print('header not empty')//debug
+          allSorted.push(' '.repeat(this._spacing) + doneItem.trim());
+        }
+      }
+    }
+    // console.log(allSorted);//debug
+    return allSorted.join('\n');
+  }
 }
+
+// module.exports = new Subnotes;
 
 // todo
 // return_all_sorted(this)

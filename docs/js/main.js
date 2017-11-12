@@ -1,7 +1,12 @@
 
 // var clipboard = require('./clipboard');
+
+/*
 var makeBlocks = require('./makeBlocks');
 var subnotesProto = require('./subnotes_proto');
+console.log(subnotesProto);//debug
+console.log(makeBlocks);//debug
+*/
 
 new Clipboard('#mainButton');
 console.log('Awaiting input...')
@@ -10,8 +15,8 @@ const mainButton = document.getElementById('mainButton');
 const demoButton = document.getElementById('demoButton');
 // console.log(textArea);
 // console.log(mainButton);
-mainButton.addEventListener('click', asdf1);
-demoButton.addEventListener('click', asdf3);
+mainButton.addEventListener('click', getSortWrite);
+demoButton.addEventListener('click', assignTestString);
 
 
 // let asdf = makeBlocks();
@@ -20,7 +25,7 @@ demoButton.addEventListener('click', asdf3);
 // s.block_encoder();
 // console.dir(s.encoded_list);
 
-function asdf1() {
+function getSortWrite() {
   /*
   Main function: gets text from textarea, sorts it, writes output to html
   */
@@ -30,14 +35,17 @@ function asdf1() {
   if (!textContent) {return;}
   let s = new Subnotes(textContent);
   s.block_encoder();
-  console.dir(s.encoded_list);
-  return;
+  let encList = s.encoded_list;
+  s.sort_blocks(encList)
+  // console.dir(s.encoded_list);//debug
+
+  // non-class implementation
   // let sortedArray = makeBlocks(textContent).sort(abcSort);
   // let sortedText = sortedOutput(sortedArray);
   // let newText = sortedText.join('\n\n');
   // console.log(newText);
-  textArea.value = newText;
-  asdf4(10);
+  textArea.value = s.return_all_sorted();
+  notifyCopyDelay(10);
 }
 
 function abcSort(a, b) {
@@ -50,7 +58,7 @@ function sortedOutput(arr) {
   return arr.map(block => block.join('\n'));
 }
 
-function asdf4(time) {
+function notifyCopyDelay(time) {
   /*
   delays the addition of notify-show class by param:time
   */
@@ -59,37 +67,42 @@ function asdf4(time) {
   }, time);
 }
 
-function asdf3() {
+function assignTestString() {
   /*
   assigns a test tring to textarea
   */
-  textArea.value = `a
-asdf
+  textArea.value = 
+`z title should be low
+subnote below z title
 
-s
-asdf
++Project1 @tag
+    x done item in project
+    task1 for project @!!!
+    x another done item in project
+    task2 for project
+    task3 for project
+    x 3rd done item in project
 
-d
-asdf
+Not a project, so it's a note
+    x done item for note
+    subnote with priority tag @!
 
+x Top level done item @innertag embedded tag
 
-f
-asdf
-asdf
+x Top level done item with subnote
+subnote1 for done header
+subnote2 for done header
 
-g
-asdf
-asdf
-asdf
+x Top level done item with tag @!
 
-e
+note, no subnotes 1 lots of tags @! @tag @othertag @crazy
 
-w
+note, no subnotes 2
 
-z
-
-r
-  `
+Note with tag @!
+    x done item for note
+    not done item for a note @tag
+      `
 }
 // function asdf2() {
 //   return new Promise(function(resolve, reject) {
