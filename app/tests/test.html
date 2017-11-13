@@ -137,7 +137,11 @@ console.log(return_all_sorted(encList));
 
 console.log(s.return_all_tags());
 
-console.log(tag_filter(encList, '!'));
+let tagFilterTest = tag_filter(encList, 'tag');
+logObj(tagFilterTest);
+
+let displayFtagsTest = displayFilteredTags(tagFilterTest, '@tag');
+console.log(displayFtagsTest);
 
 </script>
 </body>
