@@ -11,7 +11,7 @@ subnote below z title
     x 3rd done item in project
 
 Not a project, so it's a note
-    x done item for note
+    x done item for note @tag
     subnote with priority tag @!
 
 x Top level done item @innertag embedded tag
