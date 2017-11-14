@@ -4,6 +4,11 @@
 
 ## 11/13/17
 
+todo: 
+- place test functions into main class
+- rename subnotes_proto.js to 'subnotes' maybe
+- update UI to include filtering (make sure 'enter' works)
+
 filterTags - filteredList correctly contains 5 items with '@tag'
 - FIXED! Array.concat returns a **new** array
 - `doneArray = doneArray.concat(doneFiltered);`
