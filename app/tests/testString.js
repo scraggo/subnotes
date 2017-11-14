@@ -20,7 +20,7 @@ x Top level done item with subnote
 subnote1 for done header
 subnote2 for done header
 
-x Top level done item with tag @!
+x Top level done item with tag @! @tag
 
 note, no subnotes 1 lots of tags @! @tag @othertag @crazy
 
