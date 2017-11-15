@@ -1,13 +1,24 @@
   <style>
   </style>
 
+## 11-15-17
+
+todo:
+- investigate how to properly put `state.displayFilteredTags(viewTagsInput.value);` into modal. 
+  - Issue: disabled modal 'data-toggle' stuff. 
+  - Also, can I write textContent to a `<div>` directly? YES: 
+```js
+let divc = document.querySelector('div.container');
+divc.innerHTML = '<whatever>'
+```
+
+todo:
+- update UI to include filtering (make sure 'enter' works)
+[X] place test functions into main class
+[X] rename subnotes_proto.js to 'subnotes' maybe
+
 
 ## 11/13/17
-
-todo: 
-- place test functions into main class
-- rename subnotes_proto.js to 'subnotes' maybe
-- update UI to include filtering (make sure 'enter' works)
 
 filterTags - filteredList correctly contains 5 items with '@tag'
 - FIXED! Array.concat returns a **new** array
