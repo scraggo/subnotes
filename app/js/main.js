@@ -13,11 +13,16 @@ console.log('Awaiting input...')
 const textArea = document.getElementById('mainTextArea');
 const mainButton = document.getElementById('mainButton');
 const demoButton = document.getElementById('demoButton');
+const viewTagsInput = document.getElementById('viewTagsInput');
+const viewTagsButton = document.getElementById('viewTags');
+const viewAllTagsButton = document.getElementById('viewAllTags');
 // console.log(textArea);
 // console.log(mainButton);
 mainButton.addEventListener('click', getSortWrite);
 demoButton.addEventListener('click', assignTestString);
+viewTagsButton.addEventListener('click', viewTags);
 
+let state = ''; //state of app determined by user input
 
 // let asdf = makeBlocks();
 // console.log(asdf);
@@ -45,7 +50,22 @@ function getSortWrite() {
   // let newText = sortedText.join('\n\n');
   // console.log(newText);
   textArea.value = s.return_all_sorted();
+  state = s.encoded_list;//update app state
   notifyCopyDelay(10);
+}
+
+function viewTags() {
+  // console.log(viewTagsInput.value);
+  let tagSearch;
+  if (state.length < 1) {
+    getSortWrite();
+    return;
+  } else {
+    tagSearch = s.displayFilteredTags(viewTagsInput.value);
+    console.log(tagSearch);
+  }
+
+  console.log(state);
 }
 
 function abcSort(a, b) {
