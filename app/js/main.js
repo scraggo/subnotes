@@ -19,6 +19,8 @@ const viewAllTagsButton = document.getElementById('viewAllTags');
 const modalBody = document.querySelector('.modal-body');
 // console.log(textArea);
 // console.log(mainButton);
+mainButton.addEventListener('click', getSortWrite);
+demoButton.addEventListener('click', assignTestString);
 viewTagsButton.addEventListener('click', viewTags);
 viewAllTagsButton.addEventListener('click', viewAllTags);
 
@@ -44,11 +46,12 @@ function setState() {
   document.getElementById("notify").className = "notify-hide";
   let textContent = textArea.value;
   // console.log(textContent);
-  if (!textContent) {return;}
+  if (!textContent) {return false;}
   state = new Subnotes(textContent);
   state.block_encoder();
   let encList = state.encoded_list;
   state.sort_blocks(encList);
+  return true;
   // console.dir(s.encoded_list);//debug
 
   // non-class implementation
@@ -59,8 +62,8 @@ function setState() {
 }
 
 function viewTags() {
-  $('#myModal').modal();
   writeTagsToModal();
+  $('#myModal').modal();
 }
 
 function writeTagsToModal() {
@@ -74,16 +77,16 @@ function writeTagsToModal() {
 }
 
 function viewAllTags() {
-  $('#myModal').modal();
   writeAllTagsToModal();
+  $('#myModal').modal();
 }
 
 function writeAllTagsToModal() {
   // console.log(viewTagsInput.value);
-  if (setState() === undefined) {return};
-  let tags = state.return_all_sorted();
-  console.log(tags);
-  // modalBody.innerHTML = tagSearch;
+  if (setState() === false) {return};
+  let tags = state.return_all_tags().join('</li><li>');
+  // console.log(tags);
+  modalBody.innerHTML = '<h4>All Tags:</h4>' + '<ul><li>' + tags + '</li></ul>';
   // console.log(state.encoded_list);
 }
 
