@@ -3,6 +3,10 @@
 
 ## 11-15-17
 
+UI todo:
+- autofocus in text box?
+- change order of buttons? (Sort first)
+
 todo:
 - allow more flexible formatting of filtered tag output - set in 'view' rather than 'model'
 
