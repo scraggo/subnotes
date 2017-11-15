@@ -19,12 +19,8 @@ const viewAllTagsButton = document.getElementById('viewAllTags');
 const modalBody = document.querySelector('.modal-body');
 // console.log(textArea);
 // console.log(mainButton);
-mainButton.addEventListener('click', getSortWrite);
-demoButton.addEventListener('click', assignTestString);
-viewTagsButton.addEventListener('click', function() {
-    viewTags();
-    $('#myModal').modal();
-  });
+viewTagsButton.addEventListener('click', viewTags);
+viewAllTagsButton.addEventListener('click', viewAllTags);
 
 let state = ''; //state of app determined by user input
 
@@ -38,6 +34,13 @@ function getSortWrite() {
   /*
   Main function: gets text from textarea, sorts it, writes output to html
   */
+  setState();
+  textArea.value = state.return_all_sorted();
+  // state = state.encoded_list;//update app state
+  notifyCopyDelay(10);
+}
+
+function setState() {
   document.getElementById("notify").className = "notify-hide";
   let textContent = textArea.value;
   // console.log(textContent);
@@ -45,7 +48,7 @@ function getSortWrite() {
   state = new Subnotes(textContent);
   state.block_encoder();
   let encList = state.encoded_list;
-  state.sort_blocks(encList)
+  state.sort_blocks(encList);
   // console.dir(s.encoded_list);//debug
 
   // non-class implementation
@@ -53,23 +56,35 @@ function getSortWrite() {
   // let sortedText = sortedOutput(sortedArray);
   // let newText = sortedText.join('\n\n');
   // console.log(newText);
-  textArea.value = state.return_all_sorted();
-  // state = state.encoded_list;//update app state
-  notifyCopyDelay(10);
 }
 
 function viewTags() {
+  $('#myModal').modal();
+  writeTagsToModal();
+}
+
+function writeTagsToModal() {
   // console.log(viewTagsInput.value);
+  setState();
   let tagSearch;
-  if (state.length < 1) {
-    getSortWrite();
-    return;
-  } else {
-    tagSearch = state.displayFilteredTags(viewTagsInput.value);
-    console.log(tagSearch);
-  }
+  tagSearch = state.displayFilteredTags(viewTagsInput.value);
+    // console.log(tagSearch);
   modalBody.innerHTML = tagSearch;
-  console.log(state.encoded_list);
+  // console.log(state.encoded_list);
+}
+
+function viewAllTags() {
+  $('#myModal').modal();
+  writeAllTagsToModal();
+}
+
+function writeAllTagsToModal() {
+  // console.log(viewTagsInput.value);
+  if (setState() === undefined) {return};
+  let tags = state.return_all_sorted();
+  console.log(tags);
+  // modalBody.innerHTML = tagSearch;
+  // console.log(state.encoded_list);
 }
 
 function abcSort(a, b) {
