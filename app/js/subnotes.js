@@ -210,29 +210,19 @@ class Subnotes {
     return Array.from(this.allTags).sort();
   }
 
-  tag_filter(f_tag) {
-    /*
-        Args:
-            f_tag: tag that user is searching for
-        Returns:
-            Array of data items with f_tag in item.tags
-        */
-
-    let all_tags = this.return_all_tags();
-
-    //get user input
-    // let f_tag = GET-ELEMENT!
+  prependTagSymbol(f_tag) {
+    f_tag = f_tag.trim();
     //ADD @ IF @ ISN'T FIRST
     if (!f_tag.startsWith('@')) {
-      f_tag = '@' + f_tag.trim();
+      f_tag = '@' + f_tag;
     }
-
-    //filter by f_tag
-    return this.encoded_list.filter( item => item.tags.indexOf(f_tag) > -1 );
+    return f_tag;
   }
 
   displayFilteredTags(f_tag) {
-    let filteredList = this.tag_filter(f_tag);
+    f_tag = this.prependTagSymbol(f_tag);
+    let filteredList = this.encoded_list.filter( item => item.tags.indexOf(f_tag) > -1 );
+    // console.log(filteredList);//debug
     let nothingFoundMessage = '<h2>No Tagged Items Found.</h2>';
     if (filteredList.length < 1) {
       return nothingFoundMessage;
@@ -242,9 +232,7 @@ class Subnotes {
     let i, item, doneFiltered, headerSearch, dataFiltered;
     for (i = 0; i < filteredList.length; i++) {
       item = filteredList[i];
-      //REMEMBER TO REPLACE LOWEST_CHAR WITH this.LOWEST_CHAR IN THIS LINE
-      // if (item.data.length < 1 || item.header === this.LOWEST_CHAR || item.header.length < 1) {
-      if (item.done.length > 0) {
+      if (item.data.length < 1 && (item.header === this.LOWEST_CHAR || item.header.length < 1)) {
         doneFiltered = item.done
           .filter( x => x.includes(f_tag))
           .map( x => x.trim() );
@@ -253,6 +241,7 @@ class Subnotes {
         }
         // console.error(item.header, doneFiltered, doneArray);//debug
       } else {
+        // console.log(item);//debug
         headerSearch = item.header.includes(' ' + f_tag) ? item.header : false;
         dataFiltered = item.data
           .filter( x => x.includes(' ' + f_tag))
