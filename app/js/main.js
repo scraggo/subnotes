@@ -16,11 +16,15 @@ const demoButton = document.getElementById('demoButton');
 const viewTagsInput = document.getElementById('viewTagsInput');
 const viewTagsButton = document.getElementById('viewTags');
 const viewAllTagsButton = document.getElementById('viewAllTags');
+const modalBody = document.querySelector('.modal-body');
 // console.log(textArea);
 // console.log(mainButton);
 mainButton.addEventListener('click', getSortWrite);
 demoButton.addEventListener('click', assignTestString);
-viewTagsButton.addEventListener('click', viewTags);
+viewTagsButton.addEventListener('click', function() {
+    viewTags();
+    $('#myModal').modal();
+  });
 
 let state = ''; //state of app determined by user input
 
@@ -64,7 +68,7 @@ function viewTags() {
     tagSearch = state.displayFilteredTags(viewTagsInput.value);
     console.log(tagSearch);
   }
-
+  modalBody.innerHTML = tagSearch;
   console.log(state.encoded_list);
 }
 

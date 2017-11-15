@@ -10,6 +10,9 @@ todo:
 ```js
 let divc = document.querySelector('div.container');
 divc.innerHTML = '<whatever>'
+
+// bootstrap / jquery
+$('#myModal').modal();// opens modal (bootstrap defined function using jQuery)
 ```
 
 todo:
