@@ -38,10 +38,10 @@ function getSortWrite() {
   let textContent = textArea.value;
   // console.log(textContent);
   if (!textContent) {return;}
-  let s = new Subnotes(textContent);
-  s.block_encoder();
-  let encList = s.encoded_list;
-  s.sort_blocks(encList)
+  state = new Subnotes(textContent);
+  state.block_encoder();
+  let encList = state.encoded_list;
+  state.sort_blocks(encList)
   // console.dir(s.encoded_list);//debug
 
   // non-class implementation
@@ -49,8 +49,8 @@ function getSortWrite() {
   // let sortedText = sortedOutput(sortedArray);
   // let newText = sortedText.join('\n\n');
   // console.log(newText);
-  textArea.value = s.return_all_sorted();
-  state = s.encoded_list;//update app state
+  textArea.value = state.return_all_sorted();
+  // state = state.encoded_list;//update app state
   notifyCopyDelay(10);
 }
 
@@ -61,11 +61,11 @@ function viewTags() {
     getSortWrite();
     return;
   } else {
-    tagSearch = s.displayFilteredTags(viewTagsInput.value);
+    tagSearch = state.displayFilteredTags(viewTagsInput.value);
     console.log(tagSearch);
   }
 
-  console.log(state);
+  console.log(state.encoded_list);
 }
 
 function abcSort(a, b) {
