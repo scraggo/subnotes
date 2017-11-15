@@ -4,7 +4,12 @@
 ## 11-15-17
 
 todo:
-- investigate how to properly put `state.displayFilteredTags(viewTagsInput.value);` into modal. 
+- update UI to include filtering (make sure 'enter' works)
+- allow more flexible formatting of filtered tag output
+
+[X] place test functions into main class
+[X] rename subnotes_proto.js to 'subnotes' maybe
+[X] investigate how to properly put `state.displayFilteredTags(viewTagsInput.value);` into modal. 
   - Issue: disabled modal 'data-toggle' stuff. 
   - Also, can I write textContent to a `<div>` directly? YES: 
 ```js
@@ -14,11 +19,6 @@ divc.innerHTML = '<whatever>'
 // bootstrap / jquery
 $('#myModal').modal();// opens modal (bootstrap defined function using jQuery)
 ```
-
-todo:
-- update UI to include filtering (make sure 'enter' works)
-[X] place test functions into main class
-[X] rename subnotes_proto.js to 'subnotes' maybe
 
 
 ## 11/13/17
