@@ -34,10 +34,11 @@
       </div>
       <div class="col-sm-4 btn-adjust">
         <div class="form-inline">
-          <input type="text" class="form-control" id="viewTags" placeholder="Tag(s) to view">
-          <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#myModal">View Tags</button>
+          <input type="text" class="form-control" id="viewTagsInput" placeholder="Tag(s) to view">
+          <button type="button" class="btn btn-success btn-md" id="viewTags">View Tags</button>
+          <!-- <button type="button" class="btn btn-success btn-md" id="viewTags" data-toggle="modal" data-target="#myModal">View Tags</button> -->
         </div>
-        <button type="button" class="btn btn-info btn-lg">View All Tags</button>
+        <button type="button" class="btn btn-info btn-lg" id="viewAllTags">View All Tags</button>
         <br>
         <button class="btn btn-lg btn-primary top-align" id="mainButton" data-clipboard-target="#mainTextArea">
         Sort and Copy to Clipboard</button>
@@ -45,7 +46,7 @@
         <br>
         <br>
         <br>
-        <button type="button" class="btn btn-sm btn-default  top-align" id="demoButton">Demo Text</button>
+        <button type="button" class="btn btn-sm btn-default top-align" id="demoButton">Demo Text</button>
       </div>
 
     </div>
