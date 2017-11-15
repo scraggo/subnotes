@@ -231,7 +231,8 @@ class Subnotes {
     return this.encoded_list.filter( item => item.tags.indexOf(f_tag) > -1 );
   }
 
-  displayFilteredTags(filteredList, f_tag) {
+  displayFilteredTags(f_tag) {
+    let filteredList = this.tag_filter(f_tag);
     let nothingFoundMessage = '<h2>No Tagged Items Found.</h2>';
     if (filteredList.length < 1) {
       return nothingFoundMessage;
