@@ -4,8 +4,19 @@
 ## 11-15-17
 
 todo:
-- update UI to include filtering (make sure 'enter' works)
-- allow more flexible formatting of filtered tag output
+- allow more flexible formatting of filtered tag output - set in 'view' rather than 'model'
+
+[X] update UI to include filtering (make sure 'enter' works)
+```js
+// enter key up
+document.getElementById("id_of_textbox")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("id_of_button").click();
+    }
+});
+```
 
 [X] place test functions into main class
 [X] rename subnotes_proto.js to 'subnotes' maybe
