@@ -25,26 +25,29 @@ class Subnotes {
     this._spacing = 4;//for now
     // this._spacing = spacing
     // this.set_spacing(this._spacing)
+    this.spacer = ' '.repeat(this._spacing);
+    this.allTags = new Set([]);
     // this.block_encoder()
     //CLASS VARIABLES
-    this.TAG_REGEX = /\B@\S+/;
+    this.TAG_REGEX = /\B@\S+/g;
     this.LOWEST_CHAR = '~'.repeat(10);
     // LOWEST_CHAR = chr(1114111) * 2
   }
 
-  
-  /*
-      set_spacing(this, new_spacing=4):
-          const valid_spacing = [2,4,5];
-          str_valid = ', '.join(str(x) for x in valid_spacing)
-          if new_spacing in valid_spacing:
-              this._spacing = new_spacing
-          else:
-              // raise ValueError('Spacing must be {} spaces.'.format(''.join(str_valid)))
-              print('ERROR: Spacing must be {} spaces.\nQuitting.'.format(''.join(str_valid)))
-              sys.exit()
-          return this._spacing
-  */
+  set_spacing(new_spacing=4) {
+    // sets this._spacing and returns the number
+    const valid_spacing = [2,4,5];
+    let valid_index = valid_spacing.indexOf(new_spacing - 0);//ensure number
+    if (valid_index > -1) {
+      this._spacing = new_spacing;
+      return this._spacing;
+    } else {
+      // set default to 4
+      this._spacing = 4;
+      return this._spacing;
+    }
+  }
+
   block_encoder() {
     /*
     Main function that appends dict objects to this.encoded_list as such:
@@ -80,7 +83,6 @@ class Subnotes {
         if (line.trim().startsWith('x ')) {
           this.encoded_list[i].done.push(line)
         } else {
-
           if (line === block[0]) {
             // line is the 'header'
             this.encoded_list[i].header = line.trim()
@@ -100,10 +102,13 @@ class Subnotes {
   assignTagList(line, i) {
     let tagList = line.match(this.TAG_REGEX);
     // console.log(tagList);
+    let j, tag;
     if (tagList) {
-      tagList.forEach((tag) =>
-        this.encoded_list[i].tags.push(tag)
-      )
+      for (j = 0; j < tagList.length; j++) {
+        tag = tagList[j];
+        this.encoded_list[i].tags.push(tag);
+        this.allTags.add(tag);
+      }
     }
   }
 
@@ -189,20 +194,105 @@ class Subnotes {
         for (j = 0; j < data['done'].length; j++) {
           doneItem = data['done'][j];
           // print('header not empty')//debug
-          allSorted.push(' '.repeat(this._spacing) + doneItem.trim());
+          allSorted.push(this.spacer + doneItem.trim());
         }
       }
     }
     // console.log(allSorted);//debug
     return allSorted.join('\n');
   }
+
+  return_all_tags() {
+    /*
+    returns all the tags as an array, sorted in abc order with no duplicates
+    */
+
+    return Array.from(this.allTags).sort();
+  }
+
+  prependTagSymbol(f_tag) {
+    f_tag = f_tag.trim();
+    //ADD @ IF @ ISN'T FIRST
+    if (!f_tag.startsWith('@')) {
+      f_tag = '@' + f_tag;
+    }
+    return f_tag;
+  }
+
+  displayFilteredTags(f_tag) {
+    f_tag = this.prependTagSymbol(f_tag);
+    let filteredList = this.encoded_list.filter( item => item.tags.indexOf(f_tag) > -1 );
+    // console.log(filteredList);//debug
+    let nothingFoundMessage = '<h4>No Tagged Items Found.</h4>';
+    if (filteredList.length < 1) {
+      return nothingFoundMessage;
+    }
+    let tagArray = [];
+    let doneArray = [];
+    let i, item, doneFiltered, headerSearch, dataFiltered;
+    for (i = 0; i < filteredList.length; i++) {
+      item = filteredList[i];
+      if (item.data.length < 1 && (item.header === this.LOWEST_CHAR || item.header.length < 1)) {
+        doneFiltered = item.done
+          .filter( x => x.includes(f_tag))
+          .map( x => x.trim() );
+        if (doneFiltered.length > 0) {
+          doneArray = doneArray.concat(doneFiltered);
+        }
+        // console.error(item.header, doneFiltered, doneArray);//debug
+      } else {
+        // console.log(item);//debug
+        headerSearch = item.header.includes(' ' + f_tag) ? item.header : false;
+        dataFiltered = item.data
+          .filter( x => x.includes(' ' + f_tag))
+          .map( x => x.trim() );
+        if (dataFiltered.length < 1) {
+          dataFiltered = false;
+        }
+        tagArray.push({headerTags: headerSearch, dataTags: dataFiltered });
+      }
+    }
+    // console.log(tagArray, doneArray);//debug
+
+    if (doneArray.length < 1 && tagArray.length < 1) {
+      return nothingFoundMessage;
+    }
+
+    // convert tagArray to array of strings
+    let tagArray2 = tagArray.map(function(item) {
+      if (item.headerTags !== false && item.dataTags !== false) {
+        return item.headerTags + item.dataTags.join('\n') + '\n';
+      } else if (item.headerTags !== false && item.dataTags === false) {
+        return item.headerTags + '\n';
+      } else if (item.headerTags === false) {
+        return item.dataTags.join('\n') + '\n';
+      }
+    })
+    
+    // console.log(tagArray2);//debug
+    let doneString = '';
+    let doneHeader = '<h4>Done Items Tagged ' + f_tag + ':</h4>';
+    if (doneArray.length > 0) {
+      // doneString = doneHeader + '\n' + doneArray.join('\n');
+      doneString = doneHeader + '<ul><li>' + doneArray.join('</li><li>') + '</li></ul>';
+    }
+    let taggedHeader = '<h4>Items Tagged ' + f_tag + ':</h4>';
+    let tagString = '<ul><li>' + tagArray2.join('</li><li>') + '</li></ul>';
+    // let htmlObject = {doneHeader: doneHeader, taggedHeader: taggedHeader, tagString: tagString};
+    // return htmlObject;
+    return taggedHeader + tagString + doneString;
+  }
 }
 
 // module.exports = new Subnotes;
 
 // todo
-// return_all_sorted(this)
-// this method does a lot. create done array, etc.
+// tag_filter
+//         Prints projects that contain f_tag input by user.
+//         Done items with tags are not included.
+
+// done! return_all_sorted(this)
+// done! return_all_tags
 
 // skipping
 // fix_spacing
@@ -252,20 +342,7 @@ class Subnotes {
 
 //     return [list(g[1]) for g in itertools.groupby(f_list, key = lambda x: x.trim() != '') if g[0]]
 
-//   return_all_tags(this)
-//     /*
-//     returns all the tags as a list, sorted in abc order with no duplicates
-//     */
 
-//     unsortedtags = []
-//   for item in this.encoded_list
-//     tagslist = item['tags']
-//   if tagslist != []
-//     for tag in tagslist
-//     if tag not in unsortedtags
-//     unsortedtags.push(tag)
-
-//   return sorted(unsortedtags)
 
 //   return_all_sorted(this)
 //     /*returns all items sorted as a string for printing or clipboard.*/
@@ -315,7 +392,7 @@ class Subnotes {
 //   return '\n'.join(allSorted)
 
 
-//   tag_filter(this)
+//   tag_filter() {
 //     /*
 //         Prints projects that contain f_tag input by user.
 //         Done items with tags are not included.
@@ -326,7 +403,7 @@ class Subnotes {
 //             None (only prints)
 //         */
 
-//     all_tags = this.return_all_tags()
+//     all_tags = this.return_all_tags();
 //   if len(all_tags) < 1
 //     print('No tags found.\n')
 //   else 
@@ -355,9 +432,10 @@ class Subnotes {
 //   print()
 //   else 
 //     print('No notes with {} tag found.\n'.format(f_tag))
-
+//   }
 
 // }
+
 
 // // === end Subnotes class===
 // // === start global functions ===

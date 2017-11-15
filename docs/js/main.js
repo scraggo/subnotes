@@ -13,49 +13,77 @@ console.log('Awaiting input...')
 const textArea = document.getElementById('mainTextArea');
 const mainButton = document.getElementById('mainButton');
 const demoButton = document.getElementById('demoButton');
-// console.log(textArea);
-// console.log(mainButton);
+const viewTagsInput = document.getElementById('viewTagsInput');
+const viewTagsButton = document.getElementById('viewTags');
+const viewAllTagsButton = document.getElementById('viewAllTags');
+const modalBody = document.querySelector('.modal-body');
 mainButton.addEventListener('click', getSortWrite);
 demoButton.addEventListener('click', assignTestString);
+viewTagsButton.addEventListener('click', viewTags);
+viewAllTagsButton.addEventListener('click', viewAllTags);
+viewTagsInput.addEventListener("keyup", function(event) {
+  keyboardButtonTrigger(13, viewTagsButton, event);
+});
 
+function keyboardButtonTrigger(keyCode, button, event) {
+  event.preventDefault();
+  if (event.keyCode === keyCode) {
+    button.click();
+  }
+}
 
-// let asdf = makeBlocks();
-// console.log(asdf);
-// let s = new Subnotes(getTestString());
-// s.block_encoder();
-// console.dir(s.encoded_list);
+let state = ''; //state of app determined by user input
+
+function setState() {
+  document.getElementById("notify").className = "notify-hide";
+  let textContent = textArea.value;
+  // console.log(textContent);
+  if (!textContent) {return false;}
+  state = new Subnotes(textContent);
+  state.block_encoder();
+  let encList = state.encoded_list;
+  state.sort_blocks(encList);
+  return true;
+  // console.dir(s.encoded_list);//debug
+}
 
 function getSortWrite() {
   /*
   Main function: gets text from textarea, sorts it, writes output to html
   */
-  document.getElementById("notify").className = "notify-hide";
-  let textContent = textArea.value;
-  // console.log(textContent);
-  if (!textContent) {return;}
-  let s = new Subnotes(textContent);
-  s.block_encoder();
-  let encList = s.encoded_list;
-  s.sort_blocks(encList)
-  // console.dir(s.encoded_list);//debug
-
-  // non-class implementation
-  // let sortedArray = makeBlocks(textContent).sort(abcSort);
-  // let sortedText = sortedOutput(sortedArray);
-  // let newText = sortedText.join('\n\n');
-  // console.log(newText);
-  textArea.value = s.return_all_sorted();
+  if (!setState()) return;
+  textArea.value = state.return_all_sorted();
+  // state = state.encoded_list;//update app state
   notifyCopyDelay(10);
 }
 
-function abcSort(a, b) {
-  if (a[0] < b[0]) return -1;
-  if (a[0] > b[0]) return 1;
-  return 0;
+function viewTags() {
+  writeTagsToModal();
+  $('#myModal').modal();
 }
 
-function sortedOutput(arr) {
-  return arr.map(block => block.join('\n'));
+function writeTagsToModal() {
+  // console.log(viewTagsInput.value);
+  if (!setState()) return;
+  let tagSearch;
+  tagSearch = state.displayFilteredTags(viewTagsInput.value);
+    // console.log(tagSearch);
+  modalBody.innerHTML = tagSearch;
+  // console.log(state.encoded_list);
+}
+
+function viewAllTags() {
+  writeAllTagsToModal();
+  $('#myModal').modal();
+}
+
+function writeAllTagsToModal() {
+  // console.log(viewTagsInput.value);
+  if (!setState()) return;
+  let tags = state.return_all_tags().join('</li><li>');
+  // console.log(tags);
+  modalBody.innerHTML = '<h4>All Tags:</h4>' + '<ul><li>' + tags + '</li></ul>';
+  // console.log(state.encoded_list);
 }
 
 function notifyCopyDelay(time) {
@@ -104,10 +132,3 @@ Note with tag @!
     not done item for a note @tag
       `
 }
-// function asdf2() {
-//   return new Promise(function(resolve, reject) {
-//   )
-// });
-// p.then(() => {})}
-
-//# sourceURL=userscript.js
