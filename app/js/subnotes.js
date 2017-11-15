@@ -223,7 +223,7 @@ class Subnotes {
     f_tag = this.prependTagSymbol(f_tag);
     let filteredList = this.encoded_list.filter( item => item.tags.indexOf(f_tag) > -1 );
     // console.log(filteredList);//debug
-    let nothingFoundMessage = '<h2>No Tagged Items Found.</h2>';
+    let nothingFoundMessage = '<h4>No Tagged Items Found.</h4>';
     if (filteredList.length < 1) {
       return nothingFoundMessage;
     }
@@ -271,12 +271,16 @@ class Subnotes {
     
     // console.log(tagArray2);//debug
     let doneString = '';
-    let doneHeader = '<h2>Done Items with Tag:</h2>';
+    let doneHeader = '<h4>Done Items Tagged ' + f_tag + ':</h4>';
     if (doneArray.length > 0) {
-      doneString = doneHeader + '\n' + doneArray.join('\n');
+      // doneString = doneHeader + '\n' + doneArray.join('\n');
+      doneString = doneHeader + '<ul><li>' + doneArray.join('</li><li>') + '</li></ul>';
     }
-    let taggedHeader = '<h2>Tagged Items:</h2>';
-    return taggedHeader + '\n' + tagArray2.join('\n') + '\n' + doneString;
+    let taggedHeader = '<h4>Items Tagged ' + f_tag + ':</h4>';
+    let tagString = '<ul><li>' + tagArray2.join('</li><li>') + '</li></ul>';
+    // let htmlObject = {doneHeader: doneHeader, taggedHeader: taggedHeader, tagString: tagString};
+    // return htmlObject;
+    return taggedHeader + tagString + doneString;
   }
 }
 
