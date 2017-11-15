@@ -207,13 +207,6 @@ class Subnotes {
     returns all the tags as an array, sorted in abc order with no duplicates
     */
 
-    // let tagslist = this.encoded_list
-    //   .map( item => item['tags'] )//array of tags
-    //   .filter( item => item.length > 0 )//remove empty arrays
-    //   .reduce( (a,b) => a.concat(b) );//flatten array
-    // let tagsSet = new Set(tagslist);//unique values only
-
-    // return Array.from(tagsSet).sort();
     return Array.from(this.allTags).sort();
   }
 }
