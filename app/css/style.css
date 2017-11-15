@@ -42,25 +42,32 @@ textarea {
   margin-left: 10px;
   position: relative;
   top: 14px;
-  -webkit-animation: KEYFRAME-NAME 1.4s;
-  -moz-animation:    KEYFRAME-NAME 1.4s;
-  -o-animation:      KEYFRAME-NAME 1.4s;
-  animation:         KEYFRAME-NAME 1.4s;
+  -webkit-animation: FADE-IN 1.4s;
+  -moz-animation:    FADE-IN 1.4s;
+  -o-animation:      FADE-IN 1.4s;
+  animation:         FADE-IN 1.4s;
+  /* -webkit-animation: spin .3s linear 1;
+  -moz-animation: spin .3s linear 1;
+  animation: spin .3s linear 1;   */
 }
 
-@-webkit-keyframes KEYFRAME-NAME {
+@-webkit-keyframes FADE-IN {
   0%   { opacity: 0; }
   100% { opacity: 1; }
 }
-@-moz-keyframes KEYFRAME-NAME {
+@-moz-keyframes FADE-IN {
   0%   { opacity: 0; }
   100% { opacity: 1; }
 }
-@-o-keyframes KEYFRAME-NAME {
+@-o-keyframes FADE-IN {
   0%   { opacity: 0; }
   100% { opacity: 1; }
 }
-@keyframes KEYFRAME-NAME {
+@keyframes FADE-IN {
   0%   { opacity: 0; }
   100% { opacity: 1; }
 }
+
+/* @-moz-keyframes spin { 50% { -moz-transform: rotate(90deg); } }
+@-webkit-keyframes spin { 50% { -webkit-transform: rotate(90deg); } }
+@keyframes spin {50% { -webkit-transform: rotate(90deg); transform:rotate(90deg); } } */
