@@ -17,30 +17,22 @@ const viewTagsInput = document.getElementById('viewTagsInput');
 const viewTagsButton = document.getElementById('viewTags');
 const viewAllTagsButton = document.getElementById('viewAllTags');
 const modalBody = document.querySelector('.modal-body');
-// console.log(textArea);
-// console.log(mainButton);
 mainButton.addEventListener('click', getSortWrite);
 demoButton.addEventListener('click', assignTestString);
 viewTagsButton.addEventListener('click', viewTags);
 viewAllTagsButton.addEventListener('click', viewAllTags);
+viewTagsInput.addEventListener("keyup", function(event) {
+  keyboardButtonTrigger(13, viewTagsButton, event);
+});
+
+function keyboardButtonTrigger(keyCode, button, event) {
+  event.preventDefault();
+  if (event.keyCode === keyCode) {
+    button.click();
+  }
+}
 
 let state = ''; //state of app determined by user input
-
-// let asdf = makeBlocks();
-// console.log(asdf);
-// let s = new Subnotes(getTestString());
-// s.block_encoder();
-// console.dir(s.encoded_list);
-
-function getSortWrite() {
-  /*
-  Main function: gets text from textarea, sorts it, writes output to html
-  */
-  setState();
-  textArea.value = state.return_all_sorted();
-  // state = state.encoded_list;//update app state
-  notifyCopyDelay(10);
-}
 
 function setState() {
   document.getElementById("notify").className = "notify-hide";
@@ -53,12 +45,16 @@ function setState() {
   state.sort_blocks(encList);
   return true;
   // console.dir(s.encoded_list);//debug
+}
 
-  // non-class implementation
-  // let sortedArray = makeBlocks(textContent).sort(abcSort);
-  // let sortedText = sortedOutput(sortedArray);
-  // let newText = sortedText.join('\n\n');
-  // console.log(newText);
+function getSortWrite() {
+  /*
+  Main function: gets text from textarea, sorts it, writes output to html
+  */
+  if (!setState()) return;
+  textArea.value = state.return_all_sorted();
+  // state = state.encoded_list;//update app state
+  notifyCopyDelay(10);
 }
 
 function viewTags() {
@@ -68,7 +64,7 @@ function viewTags() {
 
 function writeTagsToModal() {
   // console.log(viewTagsInput.value);
-  setState();
+  if (!setState()) return;
   let tagSearch;
   tagSearch = state.displayFilteredTags(viewTagsInput.value);
     // console.log(tagSearch);
@@ -83,21 +79,11 @@ function viewAllTags() {
 
 function writeAllTagsToModal() {
   // console.log(viewTagsInput.value);
-  if (setState() === false) {return};
+  if (!setState()) return;
   let tags = state.return_all_tags().join('</li><li>');
   // console.log(tags);
   modalBody.innerHTML = '<h4>All Tags:</h4>' + '<ul><li>' + tags + '</li></ul>';
   // console.log(state.encoded_list);
-}
-
-function abcSort(a, b) {
-  if (a[0] < b[0]) return -1;
-  if (a[0] > b[0]) return 1;
-  return 0;
-}
-
-function sortedOutput(arr) {
-  return arr.map(block => block.join('\n'));
 }
 
 function notifyCopyDelay(time) {
@@ -146,10 +132,3 @@ Note with tag @!
     not done item for a note @tag
       `
 }
-// function asdf2() {
-//   return new Promise(function(resolve, reject) {
-//   )
-// });
-// p.then(() => {})}
-
-//# sourceURL=userscript.js
