@@ -9,6 +9,7 @@ UI todo:
 - couldn't get 'Copied!' to rotate...
 
 todo:
+- filter SHOULD display a full project with data on filter. Bah!
 - allow more flexible formatting of filtered tag output - set in 'view' rather than 'model'
 
 [X] update UI to include filtering (make sure 'enter' works)
