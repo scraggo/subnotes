@@ -27,6 +27,24 @@ function tag_filter(encList, f_tag) {
 }
 
 function displayFilteredTags(filteredList, f_tag) {
+  function headerTagLine() {
+    return item.header.includes(' ' + f_tag) ? item.header : '';
+  }
+
+  function dataTagLines() {
+    // returns an array of lines that include f_tag
+    return item.data
+      .filter( x => x.includes(f_tag))
+      .map( x => x.trim() );
+  }
+
+  function doneTagLines() {
+    // returns an array of lines that include f_tag
+    return item.done
+      .filter( x => x.includes(f_tag))
+      .map( x => x.trim() );
+  }
+
   let nothingFoundMessage = '<h2>No Tagged Items Found.</h2>';
   if (filteredList.length < 1) {
     return nothingFoundMessage;
@@ -39,26 +57,21 @@ function displayFilteredTags(filteredList, f_tag) {
   for (i = 0; i < filteredList.length; i++) {
     item = filteredList[i];
     // if (item.data.length < 1 || item.header === this.LOWEST_CHAR || item.header.length < 1) {
-    if (item.done.length > 0) {//REMEMBER TO REPLACE LOWEST_CHAR WITH this.LOWEST_CHAR IN THIS LINE
-      doneFiltered = item.done
-        .filter( x => x.includes(f_tag))
-        .map( x => x.trim() );
+    if ((item.data.length < 1) && (item.header === LOWEST_CHAR || item.header.length < 1)) {//REMEMBER TO REPLACE LOWEST_CHAR WITH this.LOWEST_CHAR IN THIS LINE
+      doneFiltered = doneTagLines();
       if (doneFiltered.length > 0) {
         doneArray = doneArray.concat(doneFiltered);
       }
-      // console.error(item.header, doneFiltered, doneArray);//debug
+      console.log('item', item);//debug
+      // console.log((item.data.length < 1) && (item.header === LOWEST_CHAR || item.header.length < 1));//debug
+      // console.log(doneFiltered, doneArray);//debug
+      console.log('tagArray inside weird block: ', tagArray);
     } else {
-      headerSearch = item.header.includes(' ' + f_tag) ? item.header : false;
-      dataFiltered = item.data
-        .filter( x => x.includes(' ' + f_tag))
-        .map( x => x.trim() );
-      if (dataFiltered.length < 1) {
-        dataFiltered = false;
-      }
-      tagArray.push({headerTags: headerSearch, dataTags: dataFiltered });
+      tagArray.push({headerTags: headerTagLine(), dataTags: dataTagLines() });
     }
   }
-  // console.log(tagArray, doneArray);//debug
+  console.log('tagArray: ', tagArray);//debug
+  console.log('doneArray: ', doneArray);//debug
 
   if (doneArray.length < 1 && tagArray.length < 1) {
     return nothingFoundMessage;
@@ -71,6 +84,7 @@ function displayFilteredTags(filteredList, f_tag) {
     } else if (item.headerTags !== false && item.dataTags === false) {
       return item.headerTags + '\n';
     } else if (item.headerTags === false) {
+      console.log(item);
       return item.dataTags.join('\n') + '\n';
     }
   })

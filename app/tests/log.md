@@ -11,6 +11,7 @@ UI todo:
 todo:
 - filter SHOULD display a full project with data on filter. Bah!
 - allow more flexible formatting of filtered tag output - set in 'view' rather than 'model'
+- filter logic: if both header and data are empty, then push the tag to the done list. else, look for the tag in the header and data. If it's not found, then...crap. Maybe re-encode even before searching. {header: line or '', data: need to search, done: need to search}. I am officially completely baffled. Why is it outputting 4 elements, it should be 3...
 
 [X] update UI to include filtering (make sure 'enter' works)
 ```js
