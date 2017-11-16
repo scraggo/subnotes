@@ -43,7 +43,6 @@ Note with priority tag @!
 
 The sorted output:
 ```
-
 +I use a prefix so I'll be put on top (and I'm a new header)
     task1 for project
     task2 for project
@@ -93,6 +92,7 @@ Note with tag @!
 This is a work in progress and could use some help. I hope to eventually implement:
 
 * [ ] Saving notes to local storage
+* [ ] Display full project note on filter
 * [ ] More advanced filtering
 * [ ] Updated UI with 2-way binding
 
