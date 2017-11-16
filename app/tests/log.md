@@ -6,6 +6,7 @@
 UI todo:
 - autofocus in text box?
 - change order of buttons? (Sort first)
+- couldn't get 'Copied!' to rotate...
 
 todo:
 - allow more flexible formatting of filtered tag output - set in 'view' rather than 'model'
