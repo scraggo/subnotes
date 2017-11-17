@@ -58,27 +58,32 @@ function getSortWrite() {
 }
 
 function viewTags() {
-  writeTagsToModal();
-  $('#myModal').modal();
+  if (writeTagsToModal()) {
+    $('#myModal').modal();
+  }
 }
 
 function writeTagsToModal() {
   // console.log(viewTagsInput.value);
-  if (!setState()) return;
   let tagSearch = viewTagsInput.value;
+  if (!setState() || !tagSearch) return false;
   if (!tagSearch.includes('@')) {
     tagSearch = '@' + tagSearch.trim();
   }
   let result = state.displayFilteredTags(tagSearch);
-  console.log(result[0], result[1]);
-  modalBody.innerHTML = '<h4>Items Tagged ' + tagSearch + '</h4>' + 
+  if (typeof result !== 'string') {
+    result = '<h4>Items Tagged ' + tagSearch + '</h4>' + 
     '<pre>' + 
     result[0].join('') + '\n' + '</pre>' + 
     '<h4>Done Items Tagged ' + tagSearch + '</h4>' + 
     '<pre>' + 
     result[1].join('') + 
     '</pre>';
+  }
+  console.log(result);
+  modalBody.innerHTML = result;
   // console.log(state.encoded_list);
+  return true;
 }
 
 function viewAllTags() {
@@ -88,10 +93,14 @@ function viewAllTags() {
 
 function writeAllTagsToModal() {
   // console.log(viewTagsInput.value);
-  if (!setState()) return;
+  if (!setState()) return false;
+  let result = '<h4>No Tags Found.</h4>';
   let tags = state.return_all_tags().join('</li><li>');
-  // console.log(tags);
-  modalBody.innerHTML = '<h4>All Tags:</h4>' + '<ul><li>' + tags + '</li></ul>';
+  if (tags) {
+    result = '<h4>All Tags:</h4>' + '<ul><li>' + tags + '</li></ul>';
+  }
+  // console.log(tags);//debug
+  modalBody.innerHTML = result;
   // console.log(state.encoded_list);
 }
 
