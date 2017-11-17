@@ -3,6 +3,8 @@
 
 ## 11-17-17
 
+maybe I should put prependTagSymbol into the UI only. I think it's duplicated in both model and UI now.
+
 SO CONFUSED - why aren't the lines spaced correctly? after sorting, it's even weirder.
 ```
 Items Tagged @tag
