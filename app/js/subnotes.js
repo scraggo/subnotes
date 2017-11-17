@@ -20,7 +20,7 @@ class Subnotes {
 
   constructor(input_text) {
     this.input_text = input_text
-    this.block_list = makeBlocks(this.input_text);
+    this.block_list = this.groupBy(this.input_text, '');
     this.encoded_list = [];
     this._spacing = 4;//for now
     // this._spacing = spacing
@@ -36,8 +36,9 @@ class Subnotes {
 
   set_spacing(new_spacing=4) {
     // sets this._spacing and returns the number
+    new_spacing = Number(new_spacing);//ensure number
     const valid_spacing = [2,4,5];
-    let valid_index = valid_spacing.indexOf(new_spacing - 0);//ensure number
+    let valid_index = valid_spacing.indexOf(new_spacing);
     if (valid_index > -1) {
       this._spacing = new_spacing;
       return this._spacing;
@@ -46,6 +47,49 @@ class Subnotes {
       this._spacing = 4;
       return this._spacing;
     }
+  }
+
+  groupBy(input, g) {
+    /*
+    Groups array items into arrays of arrays (blocks) according to g.
+    all g items are removed.
+    */
+  
+    if (input.length < 1) {return;}
+    // if (typeof input !== 'string') {return;}
+  
+    const textArray = input
+      .split('\n')
+      .map( x => {//.map to make white space blank string
+        if (x.trim() === '') {
+          return '';
+        }
+        return x;
+      });
+    const len = textArray.length;
+    let resultArray = [];
+    let i = 0;
+    let start, end, group;
+    // console.log(textArray, len);//debug
+    while (i < len) {
+      if (textArray[i + 1] && textArray[i] === g && textArray[i + 1] === g) {
+        i++;
+        continue;
+      } else {
+        start = i;
+        end = textArray.indexOf(g, i);//or i + 1?
+        end = end > -1 ? end : len;//if not found, end is len, or len - 1?
+        group = textArray.slice(start, end);
+        if (group.length > 0) {
+          resultArray.push(group);
+          i += group.length;
+        } else {
+          i++;
+        }
+      }
+    }
+    console.log(resultArray);//debug
+    return resultArray;
   }
 
   block_encoder() {
