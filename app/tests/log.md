@@ -51,6 +51,7 @@ let tagString = '<ul><li>' + tagArray2.join('</li><li>') + '</li></ul>';
 // let htmlObject = {doneHeader: doneHeader, taggedHeader: taggedHeader, tagString: tagString};
 // return htmlObject;
 return taggedHeader + tagString + doneString;
+
 ////////// old version
 let doneString = '';
 let doneHeader = '<h2>Done Items with Tag:</h2>';
@@ -99,8 +100,9 @@ document.getElementById("id_of_textbox")
 [X] place test functions into main class
 [X] rename subnotes_proto.js to 'subnotes' maybe
 [X] investigate how to properly put `state.displayFilteredTags(viewTagsInput.value);` into modal. 
-  - Issue: disabled modal 'data-toggle' stuff. 
+  - Issue: disabled modal 'data-toggle' stuff.
   - Also, can I write textContent to a `<div>` directly? YES: 
+
 ```js
 let divc = document.querySelector('div.container');
 divc.innerHTML = '<whatever>'
@@ -108,7 +110,6 @@ divc.innerHTML = '<whatever>'
 // bootstrap / jquery
 $('#myModal').modal();// opens modal (bootstrap defined function using jQuery)
 ```
-
 
 ## 11/13/17
 
