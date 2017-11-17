@@ -42,12 +42,7 @@ function displayFilteredTags(filteredList, f_tag) {
     dataFiltered = item.data.filter( x => x.includes(f_tag));//array
     dataFiltered = dataFiltered.length > 0 ? true : false;//bool
     doneFiltered = item.done.filter( x => x.includes(f_tag));//array
-    // doneFiltered = doneFiltered.length > 0 ? true : false;//bool
-    console.log(headerSearch, dataFiltered, doneFiltered);
-    // throw 'ERROR'
-    // if (dataFiltered.length < 1) {
-    //   dataFiltered = false;
-    // }
+    // console.log(headerSearch, dataFiltered, doneFiltered);//debug
     if (doneFiltered.length < 1) {
       doneFiltered = false;
     }
@@ -61,44 +56,32 @@ function displayFilteredTags(filteredList, f_tag) {
       }
     }
   }
-  console.log('tagArray: ', tagArray);//debug
-  console.log('doneArray', doneArray);//debug
+  // console.log('tagArray: ', tagArray);//debug
+  // console.log('doneArray', doneArray);//debug
 
-  // if (doneArray.length < 1 && tagArray.length < 1) {
-  //   return nothingFoundMessage;
-  // }
-
-  // format filteredList for display
-  // if done: if !data AND !header, print done only?
-  // else: print header/data (without done?)
-  
   // ITEMS THAT CONTAIN HEADERS AND OR DATA
+  let output1 = [];
+  let output2 = [];//for done items
   for (i = 0; i < filteredList.length; i++) {
     // in the case that there are ONLY done tags, skip it
     if (!tagArray[i].headerTags && !tagArray[i].dataTags) {
-      console.log('no header or data', tagArray[i]);
+      // console.log('no header or data', tagArray[i]);//debug
       continue;
     }
     // now print header AND data
-    console.log(filteredList[i].header + '\n' + filteredList[i].data.join('\n'));
+    output1.push(filteredList[i].header + '\n' + filteredList[i].data.join('\n') + '\n');
   }
   // DONE ITEMS:
-  console.log('---Done Items:');
+  // output.push('\n## Done Items with Tag:\n\n');
   for (i = 0; i < doneArray.length; i++) {
     if (doneArray[i].doneHeader) {
-      console.log(doneArray[i].doneHeader + '\n' + doneArray[i].doneItem.join('\n'));
+      output2.push(doneArray[i].doneHeader + '\n' + doneArray[i].doneItem.join('\n') + '\n\n');
     } else {
-      console.log(doneArray[i].doneItem.join('\n'));
+      output2.push(doneArray[i].doneItem.join('\n') + '\n');
     }
   }
-  
+  console.log(output1.join(''));//debug
+  console.log(output2.join(''));//debug
 
-  // console.log(tagArray2);//debug
-  let doneString = '';
-  let doneHeader = '<h2>Done Items with Tag:</h2>';
-  if (doneArray.length > 0) {
-    doneString = doneHeader + '\n' + doneArray.join('\n');
-  }
-  let taggedHeader = '<h2>Tagged Items:</h2>';
-  return taggedHeader + '\n' + tagArray2.join('\n') + '\n' + doneString;
+  return [output1, output2];
 }
