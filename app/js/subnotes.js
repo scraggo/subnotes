@@ -143,7 +143,7 @@ class Subnotes {
     let doneList = [];
     let header_exists, item, data_item, data, doneItem, i, j;
     let nowDate = new Date();
-    nowDate = nowDate.toString();
+    nowDate = nowDate.toString() + '\n';
 
     for (i = 0; i < this.encoded_list.length; i++) {
       item = this.encoded_list[i];
@@ -232,55 +232,54 @@ class Subnotes {
     let i, item, doneFiltered, headerSearch, dataFiltered;
     for (i = 0; i < filteredList.length; i++) {
       item = filteredList[i];
-      if (item.data.length < 1 && (item.header === this.LOWEST_CHAR || item.header.length < 1)) {
-        doneFiltered = item.done
-          .filter( x => x.includes(f_tag))
-          .map( x => x.trim() );
-        if (doneFiltered.length > 0) {
-          doneArray = doneArray.concat(doneFiltered);
+      headerSearch = item.header.includes(f_tag);//bool
+      dataFiltered = item.data.filter( x => x.includes(f_tag));//array
+      dataFiltered = dataFiltered.length > 0 ? true : false;//bool
+      doneFiltered = item.done.filter( x => x.includes(f_tag));//array
+      // console.log(headerSearch, dataFiltered, doneFiltered);//debug
+      if (doneFiltered.length < 1) {
+        doneFiltered = false;
+      }
+      // console.log('item', item);//debug
+      tagArray.push({headerTags: headerSearch, dataTags: dataFiltered, doneTags: doneFiltered });
+      if (headerSearch === false && dataFiltered === false) {
+        if (item.header === this.LOWEST_CHAR) {
+          doneArray.push({doneItem: doneFiltered})
+        } else {
+          doneArray.push({doneHeader: item.header, doneItem: doneFiltered})
         }
-        // console.error(item.header, doneFiltered, doneArray);//debug
-      } else {
-        // console.log(item);//debug
-        headerSearch = item.header.includes(' ' + f_tag) ? item.header : false;
-        dataFiltered = item.data
-          .filter( x => x.includes(' ' + f_tag))
-          .map( x => x.trim() );
-        if (dataFiltered.length < 1) {
-          dataFiltered = false;
-        }
-        tagArray.push({headerTags: headerSearch, dataTags: dataFiltered });
       }
     }
-    // console.log(tagArray, doneArray);//debug
-
+    // console.log('tagArray: ', tagArray);//debug
+    // console.log('doneArray', doneArray);//debug
     if (doneArray.length < 1 && tagArray.length < 1) {
       return nothingFoundMessage;
     }
-
-    // convert tagArray to array of strings
-    let tagArray2 = tagArray.map(function(item) {
-      if (item.headerTags !== false && item.dataTags !== false) {
-        return item.headerTags + item.dataTags.join('\n') + '\n';
-      } else if (item.headerTags !== false && item.dataTags === false) {
-        return item.headerTags + '\n';
-      } else if (item.headerTags === false) {
-        return item.dataTags.join('\n') + '\n';
+    // ITEMS THAT CONTAIN HEADERS AND OR DATA
+    let output1 = [];
+    let output2 = [];//for done items
+    for (i = 0; i < filteredList.length; i++) {
+      // in the case that there are ONLY done tags, skip it
+      if (!tagArray[i].headerTags && !tagArray[i].dataTags) {
+        // console.log('no header or data', tagArray[i]);//debug
+        continue;
       }
-    })
-    
-    // console.log(tagArray2);//debug
-    let doneString = '';
-    let doneHeader = '<h4>Done Items Tagged ' + f_tag + ':</h4>';
-    if (doneArray.length > 0) {
-      // doneString = doneHeader + '\n' + doneArray.join('\n');
-      doneString = doneHeader + '<ul><li>' + doneArray.join('</li><li>') + '</li></ul>';
+      // now print header AND data
+      output1.push(filteredList[i].header + '\n' + filteredList[i].data.join('\n') + '\n');
     }
-    let taggedHeader = '<h4>Items Tagged ' + f_tag + ':</h4>';
-    let tagString = '<ul><li>' + tagArray2.join('</li><li>') + '</li></ul>';
-    // let htmlObject = {doneHeader: doneHeader, taggedHeader: taggedHeader, tagString: tagString};
-    // return htmlObject;
-    return taggedHeader + tagString + doneString;
+    // DONE ITEMS:
+    // output.push('\n## Done Items with Tag:\n\n');
+    for (i = 0; i < doneArray.length; i++) {
+      if (doneArray[i].doneHeader) {
+        output2.push(doneArray[i].doneHeader + '\n' + doneArray[i].doneItem.join('\n') + '\n\n');
+      } else {
+        output2.push(doneArray[i].doneItem.join('\n') + '\n');
+      }
+    }
+    // console.log(output1.join(''));//debug
+    // console.log(output2.join(''));//debug
+
+    return [output1, output2];
   }
 }
 
