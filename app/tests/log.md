@@ -1,6 +1,20 @@
   <style>
   </style>
 
+## 11-17-17
+```
+doneArray 
+[{"doneHeader":"Not a project, so it's a note","doneItem":["    x done item for note @tag"]},
+{"doneItem":["x Top level done item with tag @! @tag"]}]
+
+tagArray:  
+[{"headerTags":true,"dataTags":false,"doneTags":false},
+{"headerTags":false,"dataTags":false,"doneTags":["    x done item for note @tag"]},
+{"headerTags":false,"dataTags":false,"doneTags":["x Top level done item with tag @! @tag"]},
+{"headerTags":true,"dataTags":false,"doneTags":false},
+{"headerTags":false,"dataTags":["    not done item for a note @tag"],"doneTags":false}]
+```
+
 ## 11-15-17
 
 UI todo:
