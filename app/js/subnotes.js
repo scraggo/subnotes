@@ -55,7 +55,7 @@ class Subnotes {
     all g items are removed.
     */
   
-    if (input.length < 1) {return;}
+    if (input.length < 1) {return [];}
     // if (typeof input !== 'string') {return;}
   
     const textArray = input
@@ -88,7 +88,7 @@ class Subnotes {
         }
       }
     }
-    console.log(resultArray);//debug
+    // console.log(resultArray);//debug
     return resultArray;
   }
 
@@ -108,7 +108,6 @@ class Subnotes {
     */
 
     for (let i = 0; i < this.block_list.length; i++) {
-      // arr[i] = 'hi';
       let block = this.block_list[i];
       // set default dictionary
       // headers are encoded as LOWEST_CHAR if first and only line is preceded by 'x'
@@ -120,7 +119,6 @@ class Subnotes {
       })
 
       for (let j = 0; j < block.length; j++) {
-        // arr[i] = 'hi';
         let line = block[j];
         // line = this.fix_spacing(line)
         // done items start with x
