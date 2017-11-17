@@ -2,7 +2,64 @@
   </style>
 
 ## 11-17-17
+
+SO CONFUSED - why aren't the lines spaced correctly? after sorting, it's even weirder.
 ```
+Items Tagged @tag
+
++Project1 @tag
+    task1 for project @!!!
+    task2 for project
+    task3 for project
+Note with tag @!
+    not done item for a note @tag
+note, no subnotes 1 lots of tags @! @tag @othertag @crazy
+
+
+Done Items Tagged @tag
+
+---
+Items Tagged @!
+
+Not a project, so it's a note
+    subnote with priority tag @!
+Note with tag @!
+    not done item for a note @tag
+note, no subnotes 1 lots of tags @! @tag @othertag @crazy
+
+
+Done Items Tagged @!
+
+x Top level done item with tag @!
+```
+
+
+
+```js
+
+formatting:
+
+// new version
+let doneString = '';
+let doneHeader = '<h4>Done Items Tagged ' + f_tag + ':</h4>';
+if (doneArray.length > 0) {
+  // doneString = doneHeader + '\n' + doneArray.join('\n');
+  doneString = doneHeader + '<ul><li>' + doneArray.join('</li><li>') + '</li></ul>';
+}
+let taggedHeader = '<h4>Items Tagged ' + f_tag + ':</h4>';
+let tagString = '<ul><li>' + tagArray2.join('</li><li>') + '</li></ul>';
+// let htmlObject = {doneHeader: doneHeader, taggedHeader: taggedHeader, tagString: tagString};
+// return htmlObject;
+return taggedHeader + tagString + doneString;
+////////// old version
+let doneString = '';
+let doneHeader = '<h2>Done Items with Tag:</h2>';
+if (doneArray.length > 0) {
+doneString = doneHeader + '\n' + doneArray.join('\n');
+}
+let taggedHeader = '<h2>Tagged Items:</h2>';
+return taggedHeader + '\n' + tagArray2.join('\n') + '\n' + doneString;
+
 doneArray 
 [{"doneHeader":"Not a project, so it's a note","doneItem":["    x done item for note @tag"]},
 {"doneItem":["x Top level done item with tag @! @tag"]}]
