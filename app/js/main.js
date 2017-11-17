@@ -65,10 +65,19 @@ function viewTags() {
 function writeTagsToModal() {
   // console.log(viewTagsInput.value);
   if (!setState()) return;
-  let tagSearch;
-  tagSearch = state.displayFilteredTags(viewTagsInput.value);
-    // console.log(tagSearch);
-  modalBody.innerHTML = tagSearch;
+  let tagSearch = viewTagsInput.value;
+  if (!tagSearch.includes('@')) {
+    tagSearch = '@' + tagSearch.trim();
+  }
+  let result = state.displayFilteredTags(tagSearch);
+  console.log(result[0], result[1]);
+  modalBody.innerHTML = '<h4>Items Tagged ' + tagSearch + '</h4>' + 
+    '<pre>' + 
+    result[0].join('') + '\n' + '</pre>' + 
+    '<h4>Done Items Tagged ' + tagSearch + '</h4>' + 
+    '<pre>' + 
+    result[1].join('') + 
+    '</pre>';
   // console.log(state.encoded_list);
 }
 
